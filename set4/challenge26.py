@@ -1,9 +1,11 @@
-from set3.challenge2 import encrypt_AES_CTR
-from set1.challenge1_2 import xor_bytes
+import secrets
+
 from Crypto.Random import get_random_bytes
+
+from set1.challenge1_2 import xor_bytes
 from set2.challenge1 import pkcs7_pad, pkcs7_unpad
 from set2.challenge8 import url_decode_bytes
-import secrets
+from set3.challenge2 import encrypt_AES_CTR
 
 
 class Encryption:

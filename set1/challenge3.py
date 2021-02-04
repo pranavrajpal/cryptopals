@@ -1,6 +1,7 @@
+import string
+
 from conversions import hex_to_bytes
 from set1.challenge1_2 import xor_bytes
-import string
 
 
 def get_english_freq(character):

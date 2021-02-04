@@ -1,10 +1,12 @@
-import socket
 import queue
+import socket
 import sys
 from threading import Thread
-from set5.challenge33 import get_constants
+
+from Crypto.Hash import HMAC, SHA256
 from Crypto.Random import get_random_bytes
-from Crypto.Hash import SHA256, HMAC
+
+from set5.challenge33 import get_constants
 from set5.challenge34 import diffie_hellman, generate_private
 
 

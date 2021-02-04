@@ -1,5 +1,6 @@
-from conversions import bytes_to_hex, hex_to_bytes
 from itertools import cycle
+
+from conversions import bytes_to_hex, hex_to_bytes
 
 
 def repeating_key_xor(plaintext, key):

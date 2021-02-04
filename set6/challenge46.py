@@ -1,10 +1,12 @@
-from set5.challenge39 import rsa_encrypt, rsa_decrypt, rsa_generate_keys
-from set5.challenge36 import bytes_to_num, num_to_bytes
-from conversions import base64_to_bytes
 import math
-from itertools import zip_longest
-import numpy as np
 from fractions import Fraction
+from itertools import zip_longest
+
+import numpy as np
+
+from conversions import base64_to_bytes
+from set5.challenge36 import bytes_to_num, num_to_bytes
+from set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys
 
 
 def grouper(iterable, n, fillvalue=None):

@@ -1,14 +1,10 @@
-from challenge36 import (
-    create_connection,
-    sha256_hash,
-    bytes_to_num,
-    num_to_bytes,
-    hmac_sha256,
-)
-from challenge33 import diffie_hellman, get_constants, generate_public
+from threading import Thread
+
+from challenge33 import diffie_hellman, generate_public, get_constants
+from challenge36 import (bytes_to_num, create_connection, hmac_sha256,
+                         num_to_bytes, sha256_hash)
 from Crypto.Random import get_random_bytes
 from Crypto.Random.random import getrandbits
-from threading import Thread
 
 
 def simplified_srp_server(channel, password):

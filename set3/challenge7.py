@@ -1,7 +1,8 @@
-from challenge5 import MersenneTwister
-from enum import Enum
-import secrets
 import random
+import secrets
+from enum import Enum
+
+from challenge5 import MersenneTwister
 
 
 def untemper(rng, tempered):

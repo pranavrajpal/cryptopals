@@ -1,10 +1,12 @@
+import random
+import secrets
+import struct
+
+import numpy as np
 from Crypto.Hash import SHA1
 from Crypto.Random import get_random_bytes
+
 from set1.challenge8 import get_blocks
-import secrets
-import numpy as np
-import struct
-import random
 
 # turn off overflow warnings
 np.seterr(over="ignore")

@@ -1,6 +1,8 @@
-from set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys, inverse_mod
-from set5.challenge36 import sha256_hash, bytes_to_num, num_to_bytes
 import random
+
+from set5.challenge36 import bytes_to_num, num_to_bytes, sha256_hash
+from set5.challenge39 import (inverse_mod, rsa_decrypt, rsa_encrypt,
+                              rsa_generate_keys)
 
 
 class EncryptionRSA:

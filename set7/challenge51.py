@@ -1,8 +1,10 @@
-from set3.challenge2 import encrypt_AES_CTR
-from Crypto.Random import get_random_bytes
-from secrets import randbits
-import zlib
 import string
+import zlib
+from secrets import randbits
+
+from Crypto.Random import get_random_bytes
+
+from set3.challenge2 import encrypt_AES_CTR
 
 
 def compression_oracle(plaintext):

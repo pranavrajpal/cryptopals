@@ -1,14 +1,16 @@
-import struct
+import array
+import math
 import random
 import secrets
-import math
+import struct
 import time
-import array
-from Crypto.Random import get_random_bytes
+
 from challenge5 import MersenneTwister
+from challenge7 import recover_state, undo_bit_shift_right_anded
+from Crypto.Random import get_random_bytes
+
 from set1.challenge1_2 import xor_bytes
 from set1.challenge8 import get_blocks
-from challenge7 import undo_bit_shift_right_anded, recover_state
 
 
 def mersenne_stream_cipher(seed, bytestring):

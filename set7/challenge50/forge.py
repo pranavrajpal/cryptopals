@@ -1,6 +1,7 @@
 from challenge49 import cbc_mac
-from set1.challenge8 import get_blocks
+
 from set1.challenge1_2 import xor_bytes
+from set1.challenge8 import get_blocks
 from set2.challenge2 import encrypt_AES_CBC
 
 

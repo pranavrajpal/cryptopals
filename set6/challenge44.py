@@ -1,11 +1,9 @@
-from challenge43 import (
-    sha1_hash,
-    get_dsa_constants,
-    get_private_dsa_key_message_val,
-    get_sha1_fingerprint,
-)
-from set5.challenge39 import inverse_mod
 import itertools
+
+from challenge43 import (get_dsa_constants, get_private_dsa_key_message_val,
+                         get_sha1_fingerprint, sha1_hash)
+
+from set5.challenge39 import inverse_mod
 
 
 def parse_text_file():

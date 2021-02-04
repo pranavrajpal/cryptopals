@@ -1,8 +1,10 @@
-import requests
-from conversions import bytes_to_hex
-import time
 import copy
+import time
+
+import requests
 from helper_functions import hmac_sha1
+
+from conversions import bytes_to_hex
 
 HMAC_SIZE = 20
 

@@ -1,10 +1,12 @@
-from set5.challenge36 import num_to_bytes
-from set5.challenge39 import rsa_encrypt, rsa_decrypt, rsa_generate_keys
+import math
+from itertools import zip_longest
+from math import ceil, floor
+
 from Crypto.Random import get_random_bytes
 from Crypto.Random.random import randint
-import math
-from math import floor, ceil
-from itertools import zip_longest
+
+from set5.challenge36 import num_to_bytes
+from set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys
 
 
 def grouper(iterable, n, fillvalue=None):

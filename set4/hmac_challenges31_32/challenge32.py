@@ -1,8 +1,10 @@
-from challenge31 import find_hmac_file, check_signature
-from helper_functions import hmac_sha1
-import time
 import statistics
+import time
+
 import requests
+from challenge31 import check_signature, find_hmac_file
+from helper_functions import hmac_sha1
+
 from conversions import bytes_to_hex
 
 # constants

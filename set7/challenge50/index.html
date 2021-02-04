@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBC MAC Code Checker</title>
+</head>
+
+<body>
+    <h1>Check your code with CBC MAC</h1>
+    <form id="form">
+        File: <input type="text" id="inputFile" />
+        <button type="submit">Submit</button>
+    </form>
+    <p id="filename"></p>
+
+    <script>
+        function checkFile(event) {
+            const element = document.getElementById('filename');
+            const input = document.getElementById('inputFile');
+            const file = fetch(`/${input.value}`)
+                .then(response => response.blob())
+                .then(blob => blob.text()).then(text => {
+                    console.log(text);
+                    // TODO: implement CBC MAC and use it to verify file contents
+                    // (most likely using an external package for AES)
+                });
+
+            event.preventDefault();
+        }
+        const form = document.getElementById('form');
+        form.addEventListener('submit', checkFile);
+    </script>
+</body>
+
+</html>

@@ -9,10 +9,10 @@ from set1.challenge8 import get_blocks
 class Encryption:
     def __init__(self):
         self.key = get_random_bytes(16)
-        base64_encoded = b'''Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg
+        base64_encoded = b"""Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg
 aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq
 dXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUg
-YnkK'''
+YnkK"""
         self.unknown_string = base64_to_bytes(base64_encoded)
 
     def encrypt_append(self, input_bytes):
@@ -26,7 +26,7 @@ def determine_block_size(encryption_func):
     changing_block_sizes = []
     previous_length = None
     for input_length in range(1, 50):
-        input_bytes = b'A' * input_length
+        input_bytes = b"A" * input_length
         encrypted = encryption_func(input_bytes)
         output_length = len(encrypted)
         if previous_length is not None and output_length != previous_length:
@@ -51,18 +51,17 @@ def get_one_byte(encryption_func, known, block_size):
     # number of blocks expected to be the same - increases when known_length increases above block_size
     num_blocks = known_length // block_size
     # need an extra block in addition to blocks that are already known
-    beginning_padding = b'A' * \
-        ((num_blocks + 1) * block_size - 1 - known_length)
+    beginning_padding = b"A" * ((num_blocks + 1) * block_size - 1 - known_length)
     beginning_message = beginning_padding + known
     # encrypt only the padding to allow last byte to be new unknown data
     with_secret = encryption_func(beginning_padding)
     blocks = get_blocks(with_secret, 16)
-    goal_first_block = blocks[:num_blocks + 1]
-    for byte_guess in range(0, 0xff + 1):
+    goal_first_block = blocks[: num_blocks + 1]
+    for byte_guess in range(0, 0xFF + 1):
         as_byte = bytes([byte_guess])
         full_message = beginning_message + as_byte
         with_guess = encryption_func(full_message)
-        guess_first_block = get_blocks(with_guess, 16)[:num_blocks + 1]
+        guess_first_block = get_blocks(with_guess, 16)[: num_blocks + 1]
         if goal_first_block == guess_first_block:
             return as_byte
 
@@ -70,14 +69,13 @@ def get_one_byte(encryption_func, known, block_size):
 def challenge4():
     cipher = Encryption()
     block_size = determine_block_size(cipher.encrypt_append)
-    print(f'Block Size: {block_size}')
+    print(f"Block Size: {block_size}")
     mode = find_AES_mode(cipher.encrypt_append)
-    print(f'Mode: {mode}')
-    unknown_string_padded = find_appended_AES_ECB(
-        cipher.encrypt_append, block_size)
+    print(f"Mode: {mode}")
+    unknown_string_padded = find_appended_AES_ECB(cipher.encrypt_append, block_size)
     unpadded = pkcs7_unpad(unknown_string_padded)
-    print(f'Unknown string:')
-    print(unpadded.decode('utf8'))
+    print(f"Unknown string:")
+    print(unpadded.decode("utf8"))
     # print(f'With unknown string: {cipher.encrypt_append(b"")}')
     # print(f'With guess: {encrypt_AES_ECB(unknown_string)}')
 

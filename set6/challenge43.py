@@ -1,4 +1,5 @@
 from Crypto.Random import random
+
 # from set4.challenge29 import sha1_hash
 from set5.challenge36 import bytes_to_num, num_to_bytes
 from set5.challenge39 import inverse_mod
@@ -17,20 +18,20 @@ def get_dsa_constants(constants=None):
     This allows you to write:
     ```
     def function(constants=None):
-        p, q, g = get_dsa_constants(constants) 
+        p, q, g = get_dsa_constants(constants)
     ```
     instead of:
     ```
     def function(constants=None):
         if constants is None:
-            p, q, g = get_dsa_constants() 
+            p, q, g = get_dsa_constants()
         else:
             p, q, g = constants
     ```
     """
-    p = 0x800000000000000089e1855218a0e7dac38136ffafa72eda7859f2171e25e65eac698c1702578b07dc2a1076da241c76c62d374d8389ea5aeffd3226a0530cc565f3bf6b50929139ebeac04f48c3c84afb796d61e5a4f9a8fda812ab59494232c7d2b4deb50aa18ee9e132bfa85ac4374d7f9091abc3d015efc871a584471bb1
-    q = 0xf4f47f05794b256174bba6e9b396a7707e563c5b
-    g = 0x5958c9d3898b224b12672c0b98e06c60df923cb8bc999d119458fef538b8fa4046c8db53039db620c094c9fa077ef389b5322a559946a71903f990f1f7e0e025e2d7f7cf494aff1a0470f5b64c36b625a097f1651fe775323556fe00b3608c887892878480e99041be601a62166ca6894bdd41a7054ec89f756ba9fc95302291
+    p = 0x800000000000000089E1855218A0E7DAC38136FFAFA72EDA7859F2171E25E65EAC698C1702578B07DC2A1076DA241C76C62D374D8389EA5AEFFD3226A0530CC565F3BF6B50929139EBEAC04F48C3C84AFB796D61E5A4F9A8FDA812AB59494232C7D2B4DEB50AA18EE9E132BFA85AC4374D7F9091ABC3D015EFC871A584471BB1
+    q = 0xF4F47F05794B256174BBA6E9B396A7707E563C5B
+    g = 0x5958C9D3898B224B12672C0B98E06C60DF923CB8BC999D119458FEF538B8FA4046C8DB53039DB620C094C9FA077EF389B5322A559946A71903F990F1F7E0E025E2D7F7CF494AFF1A0470F5B64C36B625A097F1651FE775323556FE00B3608C887892878480E99041BE601A62166CA6894BDD41A7054EC89F756BA9FC95302291
     if constants is None:
         return p, q, g
     else:
@@ -79,13 +80,13 @@ def dsa_verify(message, public, signature, constants=None):
 
 
 def test_dsa():
-    message = b'This is a test message'
+    message = b"This is a test message"
     private, public = dsa_generate_keys()
     signature = dsa_sign(message, private)
     correct = dsa_verify(message, public, signature)
-    print(f'Correct: {correct}')
-    altered_correct = dsa_verify(message + b'a', public, signature)
-    print(f'Altered message correct: {altered_correct}')
+    print(f"Correct: {correct}")
+    altered_correct = dsa_verify(message + b"a", public, signature)
+    print(f"Altered message correct: {altered_correct}")
 
 
 def get_private_dsa_key(message, k, signature=None, constants=None):
@@ -116,10 +117,9 @@ def get_private_dsa_key_message_val(message_val, k, signature=None, constants=No
 def brute_force_private_key(message, public, signature, constants=None):
     """Determines the private key given the bytestring `message`, the signature (r, s), and the public key"""
     p, q, g = get_dsa_constants(constants)
-    expected_hash = hex_to_bytes(
-        '0954edd5e0afe5542a4adf012611a91912a3ec16')
+    expected_hash = hex_to_bytes("0954edd5e0afe5542a4adf012611a91912a3ec16")
     for k in range(0, 2 ** 16 + 1):
-        print(f'\rK = {k}', end='')
+        print(f"\rK = {k}", end="")
         private = get_private_dsa_key(message, k, signature=signature)
         # this code is faster but relies on knowing the SHA1 hash of the key, which isn't realistic
         # ------------------------------------------------
@@ -139,16 +139,16 @@ def brute_force_private_key(message, public, signature, constants=None):
 
 
 def challenge43():
-    message = b'For those that envy a MC it can be hazardous to your health\nSo be friendly, a matter of life and death, just like a etch-a-sketch\n'
-    public = 0x84ad4719d044495496a3201c8ff484feb45b962e7302e56a392aee4abab3e4bdebf2955b4736012f21a08084056b19bcd7fee56048e004e44984e2f411788efdc837a0d2e5abb7b555039fd243ac01f0fb2ed1dec568280ce678e931868d23eb095fde9d3779191b8c0299d6e07bbb283e6633451e535c45513b2d33c99ea17
+    message = b"For those that envy a MC it can be hazardous to your health\nSo be friendly, a matter of life and death, just like a etch-a-sketch\n"
+    public = 0x84AD4719D044495496A3201C8FF484FEB45B962E7302E56A392AEE4ABAB3E4BDEBF2955B4736012F21A08084056B19BCD7FEE56048E004E44984E2F411788EFDC837A0D2E5ABB7B555039FD243AC01F0FB2ED1DEC568280CE678E931868D23EB095FDE9D3779191B8C0299D6E07BBB283E6633451E535C45513B2D33C99EA17
     r = 548099063082341131477253921760299949438196259240
     s = 857042759984254168557880549501802188789837994940
     correct = dsa_verify(message, public, (r, s))
-    print(f'Correct: {correct}')
+    print(f"Correct: {correct}")
     # get private key
     private = brute_force_private_key(message, public, (r, s))
     fingerprint = get_sha1_fingerprint(private)
-    print(f'Private key SHA1 fingerprint: {fingerprint}')
+    print(f"Private key SHA1 fingerprint: {fingerprint}")
 
 
 def get_sha1_fingerprint(value):

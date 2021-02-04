@@ -10,7 +10,7 @@ def bytes_to_hex(bytestring):
 
 
 def bytes_to_base64(bytestring):
-    return base64.b64encode(bytestring).decode('utf-8')
+    return base64.b64encode(bytestring).decode("utf-8")
 
 
 def base64_to_bytes(base64_string):

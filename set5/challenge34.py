@@ -1,5 +1,11 @@
 from set2.challenge2 import encrypt_AES_CBC, decrypt_AES_CBC
-from set5.challenge33 import generate_private, generate_public, generate_session, get_constants, diffie_hellman
+from set5.challenge33 import (
+    generate_private,
+    generate_public,
+    generate_session,
+    get_constants,
+    diffie_hellman,
+)
 from set4.challenge28 import sha1_hash
 from Crypto.Random import get_random_bytes
 from set2.challenge1 import pkcs7_pad, pkcs7_unpad
@@ -25,7 +31,7 @@ class Sender:
 
 def num_to_bytes(num):
     # value of p is 192 bytes, so 192 bytes should be enough to hold the whole number
-    return num.to_bytes(192, 'big')
+    return num.to_bytes(192, "big")
 
 
 class Receiver:
@@ -38,7 +44,7 @@ class Receiver:
 
     def respond_to_message(self, received):
         message = decrypt(received, self.session)
-        print(f'Received message: {message}')
+        print(f"Received message: {message}")
         return encrypt(message, self.session)
 
 
@@ -68,14 +74,14 @@ def diffie_hellman_mitm(sender, receiver):
     intercept_messages(sender, receiver, 0)
 
 
-def intercept_messages(sender, receiver, session_val, message_to_send=b'Hello'):
+def intercept_messages(sender, receiver, session_val, message_to_send=b"Hello"):
     """Send `message_to_send` between the sender and the receiver and decrypt them using the fixed session key given"""
     encrypted = sender.send_message(message_to_send)
     message = decrypt(encrypted, session_val)
-    print(f'Intercepted message sent: {message}')
+    print(f"Intercepted message sent: {message}")
     returned = receiver.respond_to_message(encrypted)
     returned_message = decrypt(returned, session_val)
-    print(f'Intercepted message received: {returned_message}')
+    print(f"Intercepted message received: {returned_message}")
 
 
 def test_connection():
@@ -84,7 +90,7 @@ def test_connection():
     A = sender.initial_request()
     B = receiver.initial_response(A)
     sender.create_connection(B)
-    encrypted = sender.send_message(b'Hello')
+    encrypted = sender.send_message(b"Hello")
     returned = receiver.respond_to_message(encrypted)
 
 

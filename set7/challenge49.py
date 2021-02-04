@@ -25,13 +25,9 @@ class ServerWithIV:
 
     def send_message(self, to, amount):
         assert to != ATTACKER_ID
-        message = {
-            'from': CLIENT_ID,
-            'to': to,
-            'amount': amount
-        }
+        message = {"from": CLIENT_ID, "to": to, "amount": amount}
         iv = get_random_bytes(16)
-        url_encoded = url_encode(message).encode('utf-8')
+        url_encoded = url_encode(message).encode("utf-8")
         mac = cbc_mac(url_encoded, self.key, iv)
         return url_encoded + iv + mac
 
@@ -44,31 +40,31 @@ class ServerWithIV:
         if calculated_mac != mac:
             return None
         try:
-            return url_decode(message.decode('utf-8'), separator='&')
+            return url_decode(message.decode("utf-8"), separator="&")
         except UnicodeDecodeError:
             return None
 
 
 def transactions_list_to_string(transactions):
-    transactions_string = ''
+    transactions_string = ""
     for to, amount in transactions:
-        transactions_string += f'{to}:{amount};'
+        transactions_string += f"{to}:{amount};"
     # remove final semicolon
     return transactions_string[:-1]
 
 
 def string_to_transactions(string):
     transactions = []
-    for transaction in string.split(';'):
-        to, amount = transaction.split(':')
+    for transaction in string.split(";"):
+        to, amount = transaction.split(":")
         transactions.append((to, amount))
     return transactions
 
 
 def bytestring_to_transactions(bytestring):
     transactions = []
-    for transaction in bytestring.split(b';'):
-        to, amount = transaction.split(b':')
+    for transaction in bytestring.split(b";"):
+        to, amount = transaction.split(b":")
         transactions.append((to, amount))
     return transactions
 
@@ -86,12 +82,9 @@ class ClientFixedIV:
         from the current id"""
         transactions_string = transactions_list_to_string(transactions)
 
-        message = {
-            'from': self.id,
-            'tx_list': transactions_string
-        }
-        url_encoded = url_encode(message).encode('utf-8')
-        mac = cbc_mac(url_encoded, self.key, b'\x00' * 16)
+        message = {"from": self.id, "tx_list": transactions_string}
+        url_encoded = url_encode(message).encode("utf-8")
+        mac = cbc_mac(url_encoded, self.key, b"\x00" * 16)
         return url_encoded + mac
 
 
@@ -112,28 +105,27 @@ class ServerFixedIV:
         """Receives a message of the form messages || MAC, where MAC is the CBC-MAC of the message,
         and the IV is fixed at 0. The decoded message will be returned if the MAC is valid"""
         message, mac = bytestring[:-16], bytestring[-16:]
-        calculated_mac = cbc_mac(message, self.key, b'\x00' * 16)
+        calculated_mac = cbc_mac(message, self.key, b"\x00" * 16)
         if calculated_mac != mac:
-            print('invalid mac')
+            print("invalid mac")
             return None
         try:
-            decoded = bytes_url_decode(message, separator=b'&')
-            decoded[b'tx_list'] = bytestring_to_transactions(
-                decoded[b'tx_list'])
+            decoded = bytes_url_decode(message, separator=b"&")
+            decoded[b"tx_list"] = bytestring_to_transactions(decoded[b"tx_list"])
             return decoded
         except UnicodeDecodeError:
-            print('invalid unicode')
+            print("invalid unicode")
             return None
 
 
-def bytes_url_decode(bytestring, separator=b'&'):
+def bytes_url_decode(bytestring, separator=b"&"):
     pairs = bytestring.split(separator)
     output = {}
     for pair in pairs:
         try:
-            key, val = pair.split(b'=')
+            key, val = pair.split(b"=")
         except ValueError:
-            print(f'Pair: {pair}')
+            print(f"Pair: {pair}")
             raise
         output[key] = val
     return output
@@ -142,11 +134,11 @@ def bytes_url_decode(bytestring, separator=b'&'):
 def test_cbc_mac():
     key = get_random_bytes(16)
     iv = get_random_bytes(16)
-    mac = cbc_mac(b'abcd', key, iv)
+    mac = cbc_mac(b"abcd", key, iv)
     print(mac)
     # taken from challenge 50 description
-    key = b'YELLOW SUBMARINE'
-    iv = b'\0' * 16
+    key = b"YELLOW SUBMARINE"
+    iv = b"\0" * 16
     message = b"alert('MZA who was that?');\n"
     mac = cbc_mac(message, key, iv)
     print(mac.hex())
@@ -156,7 +148,7 @@ def cbc_iv_controlled_forge_message(server, encrypted):
     # Note: this breaks on any id that is more than one digit long
     message = encrypted[:-32]
     iv, mac = encrypted[-32:-16], encrypted[-16:]
-    prefix_len = len(f'from={CLIENT_ID}&to=')
+    prefix_len = len(f"from={CLIENT_ID}&to=")
     modified_message = bytearray(message)
     current_id = 3
 
@@ -176,7 +168,8 @@ def cbc_length_extension(attacker_client, server, captured_bytestring):
     padded_message = pkcs7_pad(captured_message, 16)
 
     attacker_message_with_mac = attacker_client.send_messages(
-        [(ATTACKER_ID, 10), (ATTACKER_ID, 1_000_000)])
+        [(ATTACKER_ID, 10), (ATTACKER_ID, 1_000_000)]
+    )
     attacker_message = attacker_message_with_mac[:-16]
     attacker_mac = attacker_message_with_mac[-16:]
     # attacker message first 16 bytes is from field and beginning of tx_list
@@ -184,27 +177,28 @@ def cbc_length_extension(attacker_client, server, captured_bytestring):
     # FIXME: find a way to avoid having colon in final section of attacker message -
     # current attack bypasses MAC check but fails when parsing the final message because of
     # colon in final message
-    modified_message = padded_message + \
-        xor_bytes(attacker_message[:16],
-                  captured_mac) + attacker_message[16:]
-    modified_mac = cbc_mac(modified_message, fixed_iv_key, b'\0' * 16)
+    modified_message = (
+        padded_message
+        + xor_bytes(attacker_message[:16], captured_mac)
+        + attacker_message[16:]
+    )
+    modified_mac = cbc_mac(modified_message, fixed_iv_key, b"\0" * 16)
     assert modified_mac == attacker_mac
     print(server.receive_messages(modified_message + attacker_mac))
 
 
 def challenge49():
-    print('IV in message attack')
+    print("IV in message attack")
     server = ServerWithIV()
     message = server.send_message(3, 1000000)
     response = cbc_iv_controlled_forge_message(server, message)
     print(response)
-    print('Fixed IV length extension attack')
+    print("Fixed IV length extension attack")
     attacker_client, _ = create_server_client(ATTACKER_ID)
     normal_client, server = create_server_client(CLIENT_ID)
     captured_message = normal_client.send_messages([(3, 10)])
 
-    response2 = cbc_length_extension(
-        attacker_client, server, captured_message)
+    response2 = cbc_length_extension(attacker_client, server, captured_message)
 
 
 if __name__ == "__main__":

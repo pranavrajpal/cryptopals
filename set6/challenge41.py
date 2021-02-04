@@ -40,7 +40,7 @@ def challenge41():
     ciphertext = rsa.encrypt(message)
     recovered_plaintext = rsa.decrypt(ciphertext)
     plaintext = unpadded_rsa_oracle(rsa, ciphertext)
-    print(f'Plaintext: {plaintext}')
+    print(f"Plaintext: {plaintext}")
 
 
 if __name__ == "__main__":

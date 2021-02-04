@@ -21,7 +21,7 @@ def generate_private(modulus):
 
 
 def generate_session(public, private, modulus):
-    """Calculates the session key given the received public key, the receiver's 
+    """Calculates the session key given the received public key, the receiver's
     private key, and the modulus"""
     return pow(public, private, modulus)
 
@@ -59,9 +59,11 @@ def test_big_nums():
 
 def get_constants():
     """Returns common set of constants used in Diffie Hellman"""
-    DiffieHellmanConstants = namedtuple('DiffieHellmanConstants', 'p g')
-    constants = DiffieHellmanConstants(p=0xffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca237327ffffffffffffffff,
-                                       g=2)
+    DiffieHellmanConstants = namedtuple("DiffieHellmanConstants", "p g")
+    constants = DiffieHellmanConstants(
+        p=0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE45B3DC2007CB8A163BF0598DA48361C55D39A69163FA8FD24CF5F83655D23DCA3AD961C62F356208552BB9ED529077096966D670C354E4ABC9804F1746C08CA237327FFFFFFFFFFFFFFFF,
+        g=2,
+    )
     return constants
 
 

@@ -9,7 +9,7 @@ def decrypt_AES_ECB(ciphertext, key):
 
 
 def challenge7():
-    with open('7.txt') as file_handle:
+    with open("7.txt") as file_handle:
         encrypted_b64 = file_handle.read()
     encrypted = base64_to_bytes(encrypted_b64)
     print(encrypted)

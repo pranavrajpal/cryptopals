@@ -9,7 +9,7 @@ class Encryption:
     def __init__(self, plaintext):
         self.key = get_random_bytes(16)
         self.nonce = secrets.randbits(64)
-        print(f'Plaintext len: {len(plaintext)}')
+        print(f"Plaintext len: {len(plaintext)}")
 
         self.ciphertext = encrypt_AES_CTR(plaintext, self.key, self.nonce)
 
@@ -17,10 +17,11 @@ class Encryption:
         return self.ciphertext
 
     def edit(self, offset, newtext):
-        keystream = generate_keystream(
-            self.key, self.nonce, offset + len(newtext))[offset:]
+        keystream = generate_keystream(self.key, self.nonce, offset + len(newtext))[
+            offset:
+        ]
         before = self.ciphertext[:offset]
-        after = self.ciphertext[offset + len(newtext):]
+        after = self.ciphertext[offset + len(newtext) :]
         middle_encrypted = xor_bytes(keystream, newtext)
         return before + middle_encrypted + after
 
@@ -29,16 +30,16 @@ def get_plaintext_CTR_v2(cipher):
     # xor the keystream with all 0s to get the keystream
     ciphertext = cipher.get_ciphertext()
     print(len(ciphertext))
-    keystream = cipher.edit(0, b'\x00' * len(ciphertext))
+    keystream = cipher.edit(0, b"\x00" * len(ciphertext))
     plaintext = xor_bytes(keystream, ciphertext)
     return plaintext
 
 
 def get_plaintext_CTR(cipher):
     ciphertext = cipher.get_ciphertext()
-    plaintext = b''
+    plaintext = b""
     for index in range(len(ciphertext)):
-        print(f'\rGetting character {index} out of {len(ciphertext)}')
+        print(f"\rGetting character {index} out of {len(ciphertext)}")
         char = get_character_CTR(cipher, index)
         plaintext += char
     return plaintext
@@ -47,7 +48,7 @@ def get_plaintext_CTR(cipher):
 def get_character_CTR(cipher, offset):
     original = cipher.get_ciphertext()
     original_char = original[offset]
-    for byte_guess in range(0, 0xff + 1):
+    for byte_guess in range(0, 0xFF + 1):
         bytestring = bytes([byte_guess])
         reencrypted = cipher.edit(offset, bytestring)
         if reencrypted[offset] == original_char:
@@ -55,12 +56,12 @@ def get_character_CTR(cipher, offset):
 
 
 def challenge25():
-    with open('25.txt') as handle:
+    with open("25.txt") as handle:
         contents = base64_to_bytes(handle.read())
     cipher = Encryption(contents)
     plaintext = get_plaintext_CTR_v2(cipher)
     print(plaintext)
-    print(f'Correct? {plaintext == contents}')
+    print(f"Correct? {plaintext == contents}")
 
 
 if __name__ == "__main__":

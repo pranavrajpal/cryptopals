@@ -1,4 +1,11 @@
-from challenge34 import intercept_messages, Sender, Receiver, get_constants, encrypt, decrypt
+from challenge34 import (
+    intercept_messages,
+    Sender,
+    Receiver,
+    get_constants,
+    encrypt,
+    decrypt,
+)
 from challenge33 import diffie_hellman, generate_session
 
 
@@ -30,19 +37,19 @@ class Receiver2:
 
     def receive_message(self, received):
         message = decrypt(received, self.session)
-        print(f'Received message: {message}')
+        print(f"Received message: {message}")
         encrypted = encrypt(message, self.session)
         return encrypted
 
 
-def intercept_messages2(sender, receiver, session_val, message_to_send=b'Hello'):
+def intercept_messages2(sender, receiver, session_val, message_to_send=b"Hello"):
     """Send `message_to_send` between the sender and the receiver and decrypt them using the fixed session key given"""
     encrypted = sender.send_message(message_to_send)
     message = decrypt(encrypted, session_val)
-    print(f'Intercepted message sent: {message}')
+    print(f"Intercepted message sent: {message}")
     returned = receiver.receive_message(encrypted)
     returned_message = decrypt(returned, session_val)
-    print(f'Intercepted message received: {returned_message}')
+    print(f"Intercepted message received: {returned_message}")
 
 
 def change_g_value(g_value, session_value, sender_public):

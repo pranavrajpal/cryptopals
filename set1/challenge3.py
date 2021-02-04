@@ -4,10 +4,35 @@ import string
 
 
 def get_english_freq(character):
-    english_text_frequencies = {'a': 08.497, 'b': 01.492, 'c': 02.202, 'd': 04.253, 'e': 11.162, 'f': 02.228, 'g': 02.015,
-                                'h': 06.094, 'i': 07.546, 'j': 00.153, 'k': 01.292, 'l': 04.025, 'm': 02.406, 'n': 06.749,
-                                'o': 07.507, 'p': 01.929, 'q': 00.095, 'r': 07.587, 's': 06.327, 't': 09.356, 'u': 02.758,
-                                'v': 00.978, 'w': 02.560, 'x': 00.150, 'y': 01.994, 'z': 00.077, ' ': 11.3}
+    english_text_frequencies = {
+        "a": 08.497,
+        "b": 01.492,
+        "c": 02.202,
+        "d": 04.253,
+        "e": 11.162,
+        "f": 02.228,
+        "g": 02.015,
+        "h": 06.094,
+        "i": 07.546,
+        "j": 00.153,
+        "k": 01.292,
+        "l": 04.025,
+        "m": 02.406,
+        "n": 06.749,
+        "o": 07.507,
+        "p": 01.929,
+        "q": 00.095,
+        "r": 07.587,
+        "s": 06.327,
+        "t": 09.356,
+        "u": 02.758,
+        "v": 00.978,
+        "w": 02.560,
+        "x": 00.150,
+        "y": 01.994,
+        "z": 00.077,
+        " ": 11.3,
+    }
     # make space slightly higher than the letter e according to
     # https://en.wikipedia.org/wiki/Letter_frequency
     return english_text_frequencies.get(chr(character), 0)
@@ -15,7 +40,7 @@ def get_english_freq(character):
 
 def is_valid_ascii(bytestring):
     try:
-        input_string = bytestring.decode('utf-8')
+        input_string = bytestring.decode("utf-8")
         return set(input_string).issubset(string.printable)
     except UnicodeDecodeError as e:
         return False
@@ -34,16 +59,16 @@ def get_freq_dict(string):
 def check_english(string):
     # uses frequency analysis to determine ranking for whether string is english text
     # higher score means worse
-    english_text_frequencies = 'ETAOINSRHDLUCMFYWGPBVKXQJZ'
+    english_text_frequencies = "ETAOINSRHDLUCMFYWGPBVKXQJZ"
     if not is_valid_ascii(string):
         return 500
     # get frequencies and convert it to a list
     frequencies_dict = get_freq_dict(string)
     sorted_dict = sorted(
-        frequencies_dict, key=lambda key: frequencies_dict[key], reverse=True)
+        frequencies_dict, key=lambda key: frequencies_dict[key], reverse=True
+    )
     # if condition at end removes all characters not in the alphabet
-    frequencies_string = ''.join(
-        [chr(c) for c in sorted_dict]).upper()
+    frequencies_string = "".join([chr(c) for c in sorted_dict]).upper()
     # compare 2 frequency lists by determining distance between corresponding elements in both lists -
     # should have a bigger impact if closer to beginning of list
     score = 0
@@ -89,20 +114,22 @@ def brute_force_single_byte_xor(bytestring):
             decryption_keys[c] = (score, decrypted)
     # sort keys by score
     sorted_inputs = sorted(
-        decryption_keys, key=lambda key: decryption_keys[key][0], reverse=True)
+        decryption_keys, key=lambda key: decryption_keys[key][0], reverse=True
+    )
     # returns [(decryption_key, score, decrypted)]
     return [(k, decryption_keys[k][0], decryption_keys[k][1]) for k in sorted_inputs]
 
 
 def challenge3():
     encrypted = hex_to_bytes(
-        '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
+        "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+    )
     decrypted_list = brute_force_single_byte_xor(encrypted)
     for input_byte, score, decrypted in decrypted_list[:5]:
-        print(f'Input Byte: {hex(input_byte)}')
-        print(f'Score: {score}')
-        print(f'Decrypted: {decrypted}')
+        print(f"Input Byte: {hex(input_byte)}")
+        print(f"Score: {score}")
+        print(f"Decrypted: {decrypted}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     challenge3()

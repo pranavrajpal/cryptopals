@@ -26,13 +26,14 @@ def challenge6():
     rng = MersenneTwister()
     timestamp = get_unix_timestamp()
     time_passing1 = random.randint(40, 1000)
-    print(f'Actual seed: {timestamp + time_passing1}')
+    print(f"Actual seed: {timestamp + time_passing1}")
     rng.seed_mt(timestamp + time_passing1)
     time_passing2 = random.randint(40, 1000)
     num = rng.extract_number()
     seed = crack_mt19937_seed_timestamp(
-        rng, num, timestamp + time_passing1 + time_passing2)
-    print(f'Recovered seed: {seed}')
+        rng, num, timestamp + time_passing1 + time_passing2
+    )
+    print(f"Recovered seed: {seed}")
 
 
 if __name__ == "__main__":

@@ -13,12 +13,12 @@ def hamming_dist(bytestring1, bytestring2):
         # xoring bytes makes all differences 1s and all same bits 0s
         differing = c1 ^ c2
         # count number of ones and add it to sum
-        sum_so_far += bin(differing).count('1')
+        sum_so_far += bin(differing).count("1")
     return sum_so_far
 
 
 def test_hamming():
-    distance = hamming_dist(b'this is a test', b'wokka wokka!!!')
+    distance = hamming_dist(b"this is a test", b"wokka wokka!!!")
     print(distance)
 
 
@@ -40,7 +40,7 @@ def get_hamming_keysize(ciphertext, keysize):
 
 
 def get_blocks(text, block_size):
-    blocks = [text[i:i+block_size] for i in range(0, len(text), block_size)]
+    blocks = [text[i : i + block_size] for i in range(0, len(text), block_size)]
     return blocks
 
 
@@ -84,11 +84,11 @@ def get_repeating_xor_key(ciphertext, keysize):
 
 
 def challenge6():
-    with open('6.txt') as encrypted_file:
-        base64_encoded = encrypted_file.read().replace('\n', '')
+    with open("6.txt") as encrypted_file:
+        base64_encoded = encrypted_file.read().replace("\n", "")
     as_bytes = base64_to_bytes(base64_encoded)
     plaintext = solve_repeating_key(as_bytes)
-    print(plaintext.decode('utf-8'))
+    print(plaintext.decode("utf-8"))
 
 
 if __name__ == "__main__":

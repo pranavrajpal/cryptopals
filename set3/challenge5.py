@@ -1,14 +1,27 @@
 from collections import namedtuple
 
 MersenneTwisterConstants = namedtuple(
-    "MersenneTwisterConstants", 'w n m r a u d s b t c l f')
+    "MersenneTwisterConstants", "w n m r a u d s b t c l f"
+)
 
 constants = MersenneTwisterConstants(
-    w=32, n=624, m=397, r=31, a=0x9908b0df, u=11, d=0xffffffff, s=7, b=0x9D2C5680, t=15, c=0xEFC60000, l=18, f=1812433253)
+    w=32,
+    n=624,
+    m=397,
+    r=31,
+    a=0x9908B0DF,
+    u=11,
+    d=0xFFFFFFFF,
+    s=7,
+    b=0x9D2C5680,
+    t=15,
+    c=0xEFC60000,
+    l=18,
+    f=1812433253,
+)
 
 
 class MersenneTwister:
-
     def __init__(self, state=None):
         global constants
         self.constants = constants
@@ -31,9 +44,10 @@ class MersenneTwister:
         self.state[0] = seed
         # i goes from 1 to n-1
         for i in range(1, constants.n):
-            prev_state = self.state[i-1]
-            state_value = constants.f * \
-                (prev_state ^ (prev_state >> (constants.w - 2))) + i
+            prev_state = self.state[i - 1]
+            state_value = (
+                constants.f * (prev_state ^ (prev_state >> (constants.w - 2))) + i
+            )
             self.state[i] = self.lowest_w_bits(state_value)
 
     def extract_number(self):
@@ -55,8 +69,9 @@ class MersenneTwister:
         constants = self.constants
         # i goes from 0 to n - 1
         for i in range(constants.n):
-            x = (self.state[i] & self.upper_mask) + \
-                (self.state[(i + 1) % constants.n] & self.lower_mask)
+            x = (self.state[i] & self.upper_mask) + (
+                self.state[(i + 1) % constants.n] & self.lower_mask
+            )
             xA = x >> 1
             if x % 2 != 0:
                 xA ^= constants.a

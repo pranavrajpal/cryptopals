@@ -17,7 +17,8 @@ def grouper(iterable, n, fillvalue=None):
 class ParityOracle:
     def __init__(self):
         self.plaintext = base64_to_bytes(
-            'VGhhdCdzIHdoeSBJIGZvdW5kIHlvdSBkb24ndCBwbGF5IGFyb3VuZCB3aXRoIHRoZSBGdW5reSBDb2xkIE1lZGluYQ==')
+            "VGhhdCdzIHdoeSBJIGZvdW5kIHlvdSBkb24ndCBwbGF5IGFyb3VuZCB3aXRoIHRoZSBGdW5reSBDb2xkIE1lZGluYQ=="
+        )
         # self.plaintext = b'ABCD;'
         self.e, self.private, self.modulus = rsa_generate_keys(num_bits=1024)
         self.ciphertext = rsa_encrypt(self.plaintext, self.e, self.modulus)
@@ -102,8 +103,8 @@ def get_plaintext_parity_oracle(oracle):
         # print(math.floor(low), math.floor(high))
     high = int(high)
     low = int(low)
-    print(f'High: {num_to_bytes(high)}')
-    print(f'Low: {num_to_bytes(low)}')
+    print(f"High: {num_to_bytes(high)}")
+    print(f"Low: {num_to_bytes(low)}")
     assert high - low == 1
     original_odd = oracle.decrypt_odd(oracle.get_ciphertext())
     if high % 2 == 1:
@@ -121,12 +122,12 @@ def get_plaintext_parity_oracle(oracle):
 
 def print_bytes(bytestring):
     """Prints the bytestring with escape sequences"""
-    string = ''
+    string = ""
     for c in bytestring:
-        if 0x20 <= c < 0x7f:
+        if 0x20 <= c < 0x7F:
             string += chr(c)
         else:
-            string += r'\x' + hex(c)[2:]
+            string += r"\x" + hex(c)[2:]
     print(string)
 
 
@@ -146,7 +147,7 @@ def print_bitstring(bitstring):
         byte_list.append(num)
     bytestring = bytes(byte_list)
     try:
-        as_string = bytestring.decode('utf-8')
+        as_string = bytestring.decode("utf-8")
         print(as_string)
     except UnicodeDecodeError:
         print(bytestring)
@@ -155,7 +156,7 @@ def print_bitstring(bitstring):
 def challenge46():
     oracle = ParityOracle()
     plaintext = get_plaintext_parity_oracle(oracle)
-    print(f'Final plaintext: {plaintext}')
+    print(f"Final plaintext: {plaintext}")
 
 
 if __name__ == "__main__":

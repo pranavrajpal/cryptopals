@@ -21,7 +21,7 @@ class Encryption:
         decrypted = decrypt_AES_CBC(encrypted_bytes, self.key, self.key)
         unpadded = pkcs7_unpad(decrypted)
         try:
-            ascii_text = unpadded.encode('ascii')
+            ascii_text = unpadded.encode("ascii")
         except:
             # return decrypted message when invalid ascii
             return unpadded
@@ -31,7 +31,7 @@ class Encryption:
 def determine_padding(cipher, ciphertext):
     blocks = get_blocks(ciphertext, 16)
     c1 = blocks[0]
-    for byte_guess in range(0, 0xff + 1):
+    for byte_guess in range(0, 0xFF + 1):
         middle_block = bytes([0] * 15 + [byte_guess])
         modified = c1 + middle_block + c1
         try:
@@ -39,7 +39,7 @@ def determine_padding(cipher, ciphertext):
             return byte_guess
         except ValueError as e:
             # padding exception
-            if 'PKCS' not in e.args[0]:
+            if "PKCS" not in e.args[0]:
                 print(e)
                 raise
 
@@ -52,7 +52,7 @@ def recover_key(cipher, ciphertext):
     padding_byte = determine_padding(cipher, ciphertext)
     modification = 0
     while True:
-        modified_c1 = xor_bytes(modification.to_bytes(16, 'big'), c1)
+        modified_c1 = xor_bytes(modification.to_bytes(16, "big"), c1)
         middle_block = bytes([0] * 15 + [padding_byte])
         modified_ciphertext = modified_c1 + middle_block + modified_c1
         decrypted = cipher.decrypt(modified_ciphertext)
@@ -60,8 +60,7 @@ def recover_key(cipher, ciphertext):
             # invalid ascii error
             decrypted_blocks = get_blocks(decrypted, 16)
             last_block_padded = pkcs7_pad(decrypted_blocks[2], 16)
-            key_with_middle_block = xor_bytes(
-                decrypted_blocks[0], last_block_padded)
+            key_with_middle_block = xor_bytes(decrypted_blocks[0], last_block_padded)
             key = xor_bytes(middle_block, key_with_middle_block)
             return key
         modification += 1
@@ -69,13 +68,13 @@ def recover_key(cipher, ciphertext):
 
 def challenge27():
     cipher = Encryption()
-    message = b'HELLO ABCDEFGH WORLD This is a test message 123456'
+    message = b"HELLO ABCDEFGH WORLD This is a test message 123456"
     ciphertext = cipher.encrypt(message)
     key = recover_key(cipher, ciphertext)
     recovered_plaintext = decrypt_AES_CBC(ciphertext, key, key)
-    unpadded = pkcs7_unpad(recovered_plaintext).decode('utf-8')
-    print(f'Key: {key}')
-    print(f'Recovered plaintext: {unpadded}')
+    unpadded = pkcs7_unpad(recovered_plaintext).decode("utf-8")
+    print(f"Key: {key}")
+    print(f"Recovered plaintext: {unpadded}")
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ def untemper(rng, tempered):
 
 def undo_bit_shift_left_anded(final, shift_amt, anded, bit_size):
     # can't recover initial value if not shifted at all
-    assert(shift_amt != 0)
+    assert shift_amt != 0
 
     value = final
     initial_value = 0
@@ -39,21 +39,21 @@ def test_bit_shift_left_anded():
     original = secrets.randbits(32)
     anded = secrets.randbits(32)
     bit_shift = random.randint(1, 32)
-    print(f'Bit shift: {bit_shift}')
-    print(f'Anded: {anded}')
-    print(f'Original: {original}')
+    print(f"Bit shift: {bit_shift}")
+    print(f"Anded: {anded}")
+    print(f"Original: {original}")
     modified = original ^ ((original << bit_shift) & anded)
-    print(f'Modified: {modified}, {bin(modified)}')
+    print(f"Modified: {modified}, {bin(modified)}")
     recovered = undo_bit_shift_left_anded(modified, bit_shift, anded, 32)
-    print(f'Recovered: {recovered}, {bin(recovered)}')
+    print(f"Recovered: {recovered}, {bin(recovered)}")
     correct = recovered == original
-    assert(correct)
-    print(f'Correct?: {correct}')
+    assert correct
+    print(f"Correct?: {correct}")
 
 
 def undo_bit_shift_right_anded(final, shift_amt, bit_size, anded=None):
     # can't recover initial value if not shifted at all
-    assert(shift_amt != 0)
+    assert shift_amt != 0
 
     value = final
     initial_value = 0
@@ -78,34 +78,32 @@ def undo_bit_shift_right_anded(final, shift_amt, bit_size, anded=None):
 def test_bit_shift_right_no_and():
     original = secrets.randbits(32)
     bit_shift = random.randint(1, 32)
-    print(f'Original: {original}')
+    print(f"Original: {original}")
     modified = original ^ (original >> bit_shift)
-    print(f'Modified: {modified}')
+    print(f"Modified: {modified}")
     recovered = undo_bit_shift_right_anded(modified, bit_shift, 32)
-    print(f'Recovered: {recovered}')
-    print(
-        f'Difference: {bin(recovered - original)}, {bin(original - recovered)}')
+    print(f"Recovered: {recovered}")
+    print(f"Difference: {bin(recovered - original)}, {bin(original - recovered)}")
     correct = recovered == original
-    assert(correct)
-    print(f'Correct?: {correct}')
+    assert correct
+    print(f"Correct?: {correct}")
 
 
 def test_bit_shift_right_anded():
     original = secrets.randbits(32)
     bit_shift = random.randint(1, 32)
     anded = secrets.randbits(32)
-    print(f'Anded: {anded}')
-    print(f'Bit shift: {bit_shift}')
-    print(f'Original: {original}')
+    print(f"Anded: {anded}")
+    print(f"Bit shift: {bit_shift}")
+    print(f"Original: {original}")
     modified = original ^ ((original >> bit_shift) & anded)
-    print(f'Modified: {modified}')
+    print(f"Modified: {modified}")
     recovered = undo_bit_shift_right_anded(modified, bit_shift, 32, anded)
-    print(f'Recovered: {recovered}')
-    print(
-        f'Difference: {bin(recovered - original)}, {bin(original - recovered)}')
+    print(f"Recovered: {recovered}")
+    print(f"Difference: {bin(recovered - original)}, {bin(original - recovered)}")
     correct = recovered == original
-    assert(correct)
-    print(f'Correct?: {correct}')
+    assert correct
+    print(f"Correct?: {correct}")
 
 
 def recover_state(rng):
@@ -113,7 +111,7 @@ def recover_state(rng):
     for i in range(624):
         rand_num = rng.extract_number()
         internal_state = untemper(rng, rand_num)
-        print(f'Calculating num {i + 1}')
+        print(f"Calculating num {i + 1}")
         rng_state.append(internal_state)
     print()
     return rng_state
@@ -134,8 +132,8 @@ def challenge7():
         original = rng.extract_number()
         cloned = cloned_rng.extract_number()
         correct = original == cloned
-        assert(correct)
-        print(f'\r{i + 1} numbers are correct', end='')
+        assert correct
+        print(f"\r{i + 1} numbers are correct", end="")
     print()
 
 

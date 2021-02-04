@@ -21,8 +21,7 @@ def rsa_encrypt(message, e, modulus):
     """Encrypts the bytestring `message` using the exponent `e` and the modulus `modulus` and returns the ciphertext"""
     message_int = bytes_to_num(message)
     if message_int >= modulus:
-        raise ValueError(
-            'Message is too large to be encrypted with given modulus')
+        raise ValueError("Message is too large to be encrypted with given modulus")
     return pow(message_int, e, modulus)
 
 
@@ -32,16 +31,16 @@ def rsa_decrypt(ciphertext, d, modulus):
 
 
 def challenge39():
-    message = b'Hello'
+    message = b"Hello"
     e, d, n = rsa_generate_keys()
     ciphertext = rsa_encrypt(message, e, n)
     plaintext = rsa_decrypt(ciphertext, d, n)
-    print(f'Plaintext: {plaintext}')
-    long_message = b'A' * 100000
+    print(f"Plaintext: {plaintext}")
+    long_message = b"A" * 100000
     e, d, n = rsa_generate_keys()
     ciphertext = rsa_encrypt(long_message, e, n)
     plaintext = rsa_decrypt(ciphertext, d, n)
-    print(f'Long plaintext: {plaintext}')
+    print(f"Long plaintext: {plaintext}")
 
 
 def gcd(a, b):
@@ -76,12 +75,12 @@ def inverse_mod(number, modulus):
 def test_egcd():
     # 3 * 102 - 8 * 38 = gcd(38, 102) = 2
     a, b, gcd_val = egcd(102, 38)
-    print(f'A: {a}, B: {b}, gcd: {gcd_val}')
+    print(f"A: {a}, B: {b}, gcd: {gcd_val}")
     inverse = inverse_mod(3, 26)
-    print(f'Inverse: {inverse}')
+    print(f"Inverse: {inverse}")
     inverse = inverse_mod(3, 79)
-    print(f'Inverse: {inverse}')
-    print(f'Inverse: {inverse_mod(17, 3120)}')
+    print(f"Inverse: {inverse}")
+    print(f"Inverse: {inverse_mod(17, 3120)}")
 
 
 if __name__ == "__main__":

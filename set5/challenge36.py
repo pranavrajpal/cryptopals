@@ -44,13 +44,13 @@ def get_srp_constants():
 
 
 def bytes_to_num(bytestring):
-    return int.from_bytes(bytestring, 'big')
+    return int.from_bytes(bytestring, "big")
 
 
 def num_to_bytes(num):
     """Converts the number to a bytestring"""
     length = (num.bit_length() + 7) // 8
-    return num.to_bytes(length, 'big')
+    return num.to_bytes(length, "big")
 
 
 def sha256_hash(bytestring):
@@ -75,7 +75,7 @@ def srp_server(channel, password):
     del x
     del xH
     b = generate_private(N)
-    B = k*v + pow(g, b, N)
+    B = k * v + pow(g, b, N)
     channel.send((salt, B))
     email, A = channel.receive()
     uH = sha256_hash(num_to_bytes(A) + num_to_bytes(B))
@@ -86,8 +86,8 @@ def srp_server(channel, password):
     computed_hmac = hmac_sha256(K, salt)
     received_hmac = channel.receive()
     if computed_hmac == received_hmac:
-        print('OK')
-        channel.send('OK')
+        print("OK")
+        channel.send("OK")
 
 
 def srp_client(channel, email, password):
@@ -101,7 +101,7 @@ def srp_client(channel, email, password):
     xH = sha256_hash(salt + password)
     x = bytes_to_num(xH)
     # g ** x == pow(g, x, N) when modulo N either way
-    S = pow(B - k*pow(g, x, N), a + u*x, N)
+    S = pow(B - k * pow(g, x, N), a + u * x, N)
     K = sha256_hash(num_to_bytes(S))
     hmac = hmac_sha256(K, salt)
     channel.send(hmac)
@@ -110,31 +110,31 @@ def srp_client(channel, email, password):
 def test_connection():
     endpoint1, endpoint2 = create_connection()
     # endpoint 1 to 2
-    endpoint1.send('Hello')
-    endpoint1.send('Goodbye')
-    endpoint1.send((1, 2, 'a'))
+    endpoint1.send("Hello")
+    endpoint1.send("Goodbye")
+    endpoint1.send((1, 2, "a"))
     received = endpoint2.receive()
-    print(f'Received: {received}')
+    print(f"Received: {received}")
     received = endpoint2.receive()
-    print(f'Received: {received}')
+    print(f"Received: {received}")
     received = endpoint2.receive()
-    print(f'Received: {received}')
+    print(f"Received: {received}")
     # endpoint 2 to 1
-    endpoint2.send('Hello')
-    endpoint2.send('Goodbye')
-    endpoint2.send((1, 2, 'a'))
+    endpoint2.send("Hello")
+    endpoint2.send("Goodbye")
+    endpoint2.send((1, 2, "a"))
     received = endpoint1.receive()
-    print(f'Received: {received}')
+    print(f"Received: {received}")
     received = endpoint1.receive()
-    print(f'Received: {received}')
+    print(f"Received: {received}")
     received = endpoint1.receive()
-    print(f'Received: {received}')
+    print(f"Received: {received}")
 
 
 def challenge36():
     endpoint1, endpoint2 = create_connection()
-    email = b'email@email.com'
-    password = b'password'
+    email = b"email@email.com"
+    password = b"password"
     client = Thread(target=srp_client, args=(endpoint1, email, password))
     server = Thread(target=srp_server, args=(endpoint2, password))
     client.start()

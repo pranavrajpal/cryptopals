@@ -32,7 +32,7 @@ def guess_keystream(bytestring_list):
     # start at 1 because above line already started at 0
     index = 1
     keystream = []
-    while current_bytes != b'':
+    while current_bytes != b"":
         keystream_bytes = brute_force_single_byte_xor(current_bytes)
         correct_byte, score, decrypted = keystream_bytes[0]
         keystream.append(correct_byte)
@@ -47,12 +47,11 @@ def challenge3():
     keystream = guess_keystream(encrypted_list)
     plaintext_bytestring_list = []
     for encrypted_line in encrypted_list:
-        shortened_keystream = keystream[:len(encrypted_line)]
+        shortened_keystream = keystream[: len(encrypted_line)]
         plaintext_line = xor_bytes(shortened_keystream, encrypted_line)
         plaintext_bytestring_list.append(plaintext_line)
-    plaintext = [bytestring.decode('utf-8')
-                 for bytestring in plaintext_bytestring_list]
-    print('\n'.join(plaintext))
+    plaintext = [bytestring.decode("utf-8") for bytestring in plaintext_bytestring_list]
+    print("\n".join(plaintext))
 
 
 if __name__ == "__main__":

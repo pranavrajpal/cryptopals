@@ -15,9 +15,8 @@ def grouper(iterable, n, fillvalue=None):
 
 
 class PKCSOracle:
-    def __init__(self, message=b'kick it, CC', num_bits=128):
-        self.e, self.private, self.modulus = rsa_generate_keys(
-            num_bits=num_bits)
+    def __init__(self, message=b"kick it, CC", num_bits=128):
+        self.e, self.private, self.modulus = rsa_generate_keys(num_bits=num_bits)
         self.block_length = ceildiv(self.modulus.bit_length(), 8)
         self.plaintext = pkcs_pad_encryption(message, self.block_length)
         self.ciphertext = rsa_encrypt(self.plaintext, self.e, self.modulus)
@@ -32,13 +31,13 @@ class PKCSOracle:
     def decrypt_pkcs(self, ciphertext):
         """Decrypts the integer `ciphertext` and returns True if the plaintext is PKCS conformant"""
         message = rsa_decrypt(ciphertext, self.private, self.modulus)
-        message_correct_length = message.rjust(self.block_length, b'\x00')
+        message_correct_length = message.rjust(self.block_length, b"\x00")
         # assert len(message_correct_length) == self.block_length
 
         # Note: this attack takes much longer when adding the requirement that there must be a null
         # byte in the message because more messages have to be tried to reach this requirement
         # 10 = 2 for b'\x00\x02' and at least 8 padding bytes
-        if message_correct_length.startswith(b'\x00\x02'):
+        if message_correct_length.startswith(b"\x00\x02"):
             print(True, message_correct_length)
             # return b'\x00' in message_correct_length[10:]
             return True
@@ -48,31 +47,35 @@ class PKCSOracle:
 
 def pkcs_pad_encryption(message, block_length):
     """Pads the bytestring `message` into a PKCS1.5 block for encryption"""
+
     def get_random_nonnull_bytes(length):
-        bytestring = bytearray(b'\x00' + get_random_bytes(length - 1))
+        bytestring = bytearray(b"\x00" + get_random_bytes(length - 1))
         try:
             while True:
-                null_index = bytestring.index(b'\x00')
+                null_index = bytestring.index(b"\x00")
                 bytestring[null_index] = randint(1, 255)
         except ValueError:
             return bytestring
+
     message_length = len(message)
     padding_length = block_length - (3 + message_length)
     if padding_length < 8:
-        raise ValueError('not enough padding')
+        raise ValueError("not enough padding")
     padding = get_random_nonnull_bytes(padding_length)
-    block = b'\x00\x02' + padding + b'\x00' + message
+    block = b"\x00\x02" + padding + b"\x00" + message
     return block
 
 
 def pkcs_unpad_encryption(bytestring, block_length):
     """Takes a PKCS1.5 block and returns the message"""
-    correct_length_bytestring = bytestring.rjust(block_length, b'\x00')
-    if correct_length_bytestring[:2] != b'\x00\x02':
+    correct_length_bytestring = bytestring.rjust(block_length, b"\x00")
+    if correct_length_bytestring[:2] != b"\x00\x02":
         raise ValueError(
-            f"Bytestring isn't PKCS1.5 formatted: {correct_length_bytestring}")
-    null_index = correct_length_bytestring.index(b'\x00', 2)
-    return correct_length_bytestring[null_index + 1:]
+            f"Bytestring isn't PKCS1.5 formatted: {correct_length_bytestring}"
+        )
+    null_index = correct_length_bytestring.index(b"\x00", 2)
+    return correct_length_bytestring[null_index + 1 :]
+
 
 # ------------------ Old PKCS padding oracle code ------------------------------------
 
@@ -137,10 +140,10 @@ def pkcs_padding_oracle(oracle):
     n, e = oracle.get_public_key()
     B = 1 << (n.bit_length() - 16)
     # message_range is a list of closed intervals, each represented by a tuple of (lower_bound, upper_bound)
-    message_range = [(2*B, 3*B - 1)]
+    message_range = [(2 * B, 3 * B - 1)]
 
     def increment_until_pkcs(start_val, max_val=math.inf):
-        """Increment `start_val` until it is a valid PKCS ciphertext, keeping the value in 
+        """Increment `start_val` until it is a valid PKCS ciphertext, keeping the value in
         the interval [start_val, max_val)"""
         s = start_val
         while True:
@@ -158,7 +161,7 @@ def pkcs_padding_oracle(oracle):
         ri = ceildiv(2 * (b * current_s - 2 * B), n)
         while True:
             si_lower_bound = ceildiv((2 * B + ri * n), b)
-            si_upper_bound = ((3 * B + ri * n) // a)
+            si_upper_bound = (3 * B + ri * n) // a
             si = increment_until_pkcs(si_lower_bound, max_val=si_upper_bound)
             if si is not None:
                 return ri, si
@@ -197,7 +200,7 @@ def pkcs_padding_oracle(oracle):
     s = [None]
     # find s1 = s[0] (Step 2a)
     s[0] = increment_until_pkcs(ceildiv(n, 3 * B))
-    print(f'Found s1: {s[0]}')
+    print(f"Found s1: {s[0]}")
 
     while True:
         if len(message_range) >= 2:
@@ -218,7 +221,7 @@ def pkcs_padding_oracle(oracle):
         # FIXME: see above comment - also r_upper_bound is sometimes less than r_lower_bound, and
         # some runs freeze at some point and take a really long time (probably in find_r_and_s)
         # This has worked once, printing out the correct message, but is very unreliable
-        print(f'Message_range length: {len(message_range)}')
+        print(f"Message_range length: {len(message_range)}")
         for a, b in message_range:
             assert a <= b
             r_lower_bound = ceildiv((a * current_s - 3 * B + 1), n)
@@ -227,7 +230,7 @@ def pkcs_padding_oracle(oracle):
             # if r_lower_bound > r_upper_bound:
             #     continue
 
-            print(f'R interval size = {r_upper_bound - r_lower_bound}')
+            print(f"R interval size = {r_upper_bound - r_lower_bound}")
             for r in range(r_lower_bound, r_upper_bound + 1):
                 m_lower = max(a, ceildiv((2 * B + r * n), current_s))
                 m_upper = min(b, ((3 * B - 1 + r * n) // current_s))
@@ -242,7 +245,7 @@ def pkcs_padding_oracle(oracle):
         # print(f'Length: {len(message_range)}')
         # Step 4 (Computing the solution)
         if len(message_range) == 1:
-            print('Message range length = 1', message_range)
+            print("Message range length = 1", message_range)
             a, b = message_range[0]
             if a == b:
                 # a = b = original plaintext
@@ -264,11 +267,11 @@ def challenge47():
     assert not oracle.decrypt_pkcs(oracle.get_ciphertext() + 1)
     padded_plaintext = pkcs_padding_oracle(oracle)
     plaintext = pkcs_unpad_encryption(padded_plaintext, oracle.block_length)
-    print(f'Challenge 47 Plaintext: {plaintext}')
+    print(f"Challenge 47 Plaintext: {plaintext}")
 
 
 def challenge48():
-    message = b'This is a longer message'
+    message = b"This is a longer message"
     # 384 = 768 / 2 (384-bit primes means 768 bit modulus)
     oracle = PKCSOracle(num_bits=384, message=message)
     # Test that the oracle is working
@@ -276,7 +279,7 @@ def challenge48():
     # assert not oracle.decrypt_pkcs(oracle.get_ciphertext() + 1)
     padded_plaintext = pkcs_padding_oracle(oracle)
     plaintext = pkcs_unpad_encryption(padded_plaintext, oracle.block_length)
-    print(f'Challenge 48 plaintext: {plaintext}')
+    print(f"Challenge 48 plaintext: {plaintext}")
 
 
 if __name__ == "__main__":

@@ -13,17 +13,18 @@ class Encryption:
         self.iv = get_random_bytes(16)
 
     def encrypt(self):
-        encrypt_options = ['MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=',
-                           'MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic=',
-                           'MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw==',
-                           'MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg==',
-                           'MDAwMDA0QnVybmluZyAnZW0sIGlmIHlvdSBhaW4ndCBxdWljayBhbmQgbmltYmxl',
-                           'MDAwMDA1SSBnbyBjcmF6eSB3aGVuIEkgaGVhciBhIGN5bWJhbA==',
-                           'MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw==',
-                           'MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8=',
-                           'MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=',
-                           'MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93',
-                           ]
+        encrypt_options = [
+            "MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=",
+            "MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic=",
+            "MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw==",
+            "MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg==",
+            "MDAwMDA0QnVybmluZyAnZW0sIGlmIHlvdSBhaW4ndCBxdWljayBhbmQgbmltYmxl",
+            "MDAwMDA1SSBnbyBjcmF6eSB3aGVuIEkgaGVhciBhIGN5bWJhbA==",
+            "MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw==",
+            "MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8=",
+            "MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=",
+            "MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93",
+        ]
         input_text = base64_to_bytes(random.choice(encrypt_options))
         padded = pkcs7_pad(input_text, 16)
         encrypted = encrypt_AES_CBC(padded, self.key, self.iv)
@@ -38,7 +39,7 @@ def get_plaintext(cipher, ciphertext, iv, block_size):
     blocks = get_blocks(ciphertext, block_size)
     prev_block = iv
 
-    known = b''
+    known = b""
     for block in blocks:
         ith_block = get_key_one_block(cipher, prev_block, block, block_size)
         prev_block = block
@@ -51,7 +52,7 @@ def check_valid_padding(bytestring):
         unpadded = pkcs7_unpad(bytestring)
         return True
     except ValueError as e:
-        if 'PKCS' in e.args[0]:
+        if "PKCS" in e.args[0]:
             return False
         else:
             raise
@@ -62,7 +63,8 @@ def get_key_one_block(cipher, prev_block, current_block, block_size):
     found_solution = True
     for i in range(block_size):
         ith_char = get_key_one_byte(
-            cipher, prev_block, current_block, known, block_size)
+            cipher, prev_block, current_block, known, block_size
+        )
         if ith_char is None:
             found_solution = False
             break
@@ -76,10 +78,17 @@ def get_key_one_block(cipher, prev_block, current_block, block_size):
         for i in range(block_size):
             if i < padding_guess:
                 ith_char = get_key_one_byte(
-                    cipher, prev_block, current_block, known_padding, block_size, padding=padding_guess)
+                    cipher,
+                    prev_block,
+                    current_block,
+                    known_padding,
+                    block_size,
+                    padding=padding_guess,
+                )
             else:
                 ith_char = get_key_one_byte(
-                    cipher, prev_block, current_block, known_padding, block_size)
+                    cipher, prev_block, current_block, known_padding, block_size
+                )
             if ith_char is None:
                 correct_padding_guess = False
                 break
@@ -92,10 +101,13 @@ def get_key_one_block(cipher, prev_block, current_block, block_size):
         return possible_guesses_padding[0]
     else:
         # TODO: figure out what to do when multiple possibilites are possible - this just returns the element with the most padding
-        pad_lengths = {bytes(bytestring): block_size -
-                       len(pkcs7_unpad(bytestring)) for bytestring in possible_guesses_padding}
+        pad_lengths = {
+            bytes(bytestring): block_size - len(pkcs7_unpad(bytestring))
+            for bytestring in possible_guesses_padding
+        }
         most_padded = sorted(
-            pad_lengths, key=lambda key: pad_lengths[key], reverse=True)
+            pad_lengths, key=lambda key: pad_lengths[key], reverse=True
+        )
         return most_padded[0]
 
         # if len(known) < block_size:
@@ -103,7 +115,9 @@ def get_key_one_block(cipher, prev_block, current_block, block_size):
         #     known = extra + known
 
 
-def get_key_one_byte(cipher, prev_block, current_block, known, block_size, padding=None):
+def get_key_one_byte(
+    cipher, prev_block, current_block, known, block_size, padding=None
+):
     byte_index = block_size - len(known) - 1
     original_ciphertext_byte = prev_block[byte_index]
     # expected_byte is the byte expected at the current position in the padding
@@ -113,13 +127,12 @@ def get_key_one_byte(cipher, prev_block, current_block, known, block_size, paddi
     else:
         expected_byte = len(known) + 1
 
-    already_known = b''
+    already_known = b""
     if len(known) != 0:
-        prev_block_end = prev_block[-len(known):]
-        xor_known = xor_bytes(
-            known, [expected_byte] * len(known))
+        prev_block_end = prev_block[-len(known) :]
+        xor_known = xor_bytes(known, [expected_byte] * len(known))
         already_known = xor_bytes(prev_block_end, xor_known)
-    for byte_guess in range(0, 0xff + 1):
+    for byte_guess in range(0, 0xFF + 1):
         as_bytestring = bytes([byte_guess])
         prefix = prev_block[:byte_index]
         input_ciphertext = prefix + as_bytestring + already_known + current_block
@@ -139,7 +152,8 @@ def get_key_one_byte(cipher, prev_block, current_block, known, block_size, paddi
 def get_key_one_byte_padding(cipher, prev_block, current_block, known, block_size):
     original_ciphertext_byte = prev_block[byte_index]
     byte_guess, _ = get_key_one_byte_guess(
-        cipher, prev_block, current_block, known, block_size)
+        cipher, prev_block, current_block, known, block_size
+    )
     for padding_guess in range(1, block_size + 1):
         # padding guess would be in the plaintext
         intermediate_byte = padding_guess ^ original_ciphertext_byte
@@ -151,11 +165,11 @@ def challenge1():
     while len(plaintext_dict) < 10:
         # pretty print output of number of strings found
         num_found = len(plaintext_dict)
-        print(f'\rFound {num_found} lyrics', end='')
+        print(f"\rFound {num_found} lyrics", end="")
 
         ciphertext, iv = cipher.encrypt()
         plaintext_bytes = get_plaintext(cipher, ciphertext, iv, 16)
-        plaintext_with_num = pkcs7_unpad(plaintext_bytes).decode('utf-8')
+        plaintext_with_num = pkcs7_unpad(plaintext_bytes).decode("utf-8")
         num = int(plaintext_with_num[:6])
         plaintext = plaintext_with_num[6:]
         plaintext_dict[num] = plaintext
@@ -163,8 +177,8 @@ def challenge1():
     print()
     sorted_dict = sorted(plaintext_dict)
     plaintext = [plaintext_dict[k] for k in sorted_dict]
-    print(f'Plaintext:')
-    print('\n'.join(plaintext))
+    print(f"Plaintext:")
+    print("\n".join(plaintext))
 
 
 if __name__ == "__main__":

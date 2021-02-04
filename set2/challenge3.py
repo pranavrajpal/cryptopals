@@ -28,14 +28,14 @@ def find_AES_mode(encryption_function):
     block_size = 16
     # 4 blocks is enough to fill out first and last block and have several identical blocks in the middle
     num_blocks = 4
-    message = b'A' * block_size * num_blocks
+    message = b"A" * block_size * num_blocks
     encrypted = encryption_function(message)
     duplicates = get_num_duplicates(encrypted, block_size)
     # will have duplicates due to duplicate message blocks if ECB
     if duplicates > 0:
-        mode = 'ECB'
+        mode = "ECB"
     else:
-        mode = 'CBC'
+        mode = "CBC"
     return mode
 
 

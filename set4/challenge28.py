@@ -5,8 +5,9 @@ import secrets
 import numpy as np
 import struct
 import random
+
 # turn off overflow warnings
-np.seterr(over='ignore')
+np.seterr(over="ignore")
 
 
 def sha1_hash(message, registers=None, message_length_bits=None):
@@ -24,11 +25,12 @@ def sha1_hash(message, registers=None, message_length_bits=None):
     # initial hash values
     if registers is None:
         h0, h1, h2, h3, h4 = map(
-            np.uint32, [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0])
+            np.uint32, [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+        )
     else:
         h0, h1, h2, h3, h4 = map(np.uint32, registers)
     for block in blocks:
-        w = struct.unpack('>16I', block)
+        w = struct.unpack(">16I", block)
         w = list(map(np.uint32, w))
         # message schedule
         for i in range(16, 80):
@@ -62,7 +64,7 @@ def sha1_hash(message, registers=None, message_length_bits=None):
         h2 = np.uint32(h2 + c)
         h3 = np.uint32(h3 + d)
         h4 = np.uint32(h4 + e)
-    hh = struct.pack('>5I', h0, h1, h2, h3, h4)
+    hh = struct.pack(">5I", h0, h1, h2, h3, h4)
     return hh
 
 
@@ -74,8 +76,8 @@ def rol(value, shift_amt, num_bits=32):
 def generate_sha1_padding(message_length_bits):
     num_zero_bits_needed = (448 - message_length_bits - 1) % 512
     padding_length_bytes = (num_zero_bits_needed + 1) // 8
-    padding = (1 << num_zero_bits_needed).to_bytes(padding_length_bytes, 'big')
-    return padding + struct.pack('>Q', message_length_bits)
+    padding = (1 << num_zero_bits_needed).to_bytes(padding_length_bytes, "big")
+    return padding + struct.pack(">Q", message_length_bits)
 
 
 def test_sha1_hash():
@@ -83,22 +85,22 @@ def test_sha1_hash():
     # message = b''
     pycrypto_hash = SHA1.new()
     pycrypto_hash.update(message)
-    print(f'Pycrypto hash: {pycrypto_hash.digest()}')
+    print(f"Pycrypto hash: {pycrypto_hash.digest()}")
     my_hash = sha1_hash(message)
-    print(f'My hash: {my_hash}')
+    print(f"My hash: {my_hash}")
     correct = my_hash == pycrypto_hash.digest()
     assert correct
-    print(f'Correct? {correct}')
+    print(f"Correct? {correct}")
 
 
 def challenge28():
     key = get_random_bytes(secrets.randbelow(100))
-    message = b'hello'
+    message = b"hello"
     message_hash = sha1_hash(key + message)
-    print(f'Original hash: {message_hash}')
-    modified_message = sha1_hash(key + b'abcd')
-    print(f'Message modified: {modified_message}')
-    print(f'Equal? {modified_message == message_hash}')
+    print(f"Original hash: {message_hash}")
+    modified_message = sha1_hash(key + b"abcd")
+    print(f"Message modified: {modified_message}")
+    print(f"Equal? {modified_message == message_hash}")
 
 
 if __name__ == "__main__":

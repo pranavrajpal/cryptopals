@@ -1,4 +1,10 @@
-from set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys, inverse_mod, gcd
+from set5.challenge39 import (
+    rsa_decrypt,
+    rsa_encrypt,
+    rsa_generate_keys,
+    inverse_mod,
+    gcd,
+)
 from set5.challenge36 import num_to_bytes
 from functools import reduce
 from operator import mul
@@ -39,7 +45,7 @@ def crt_recover_plaintext(ciphertext_list):
         # int division to make sure m_s is an integer
         assert modulus_product % modulus == 0
         m_s = modulus_product // modulus
-        result_so_far += (ciphertext * m_s * inverse_mod(m_s, modulus))
+        result_so_far += ciphertext * m_s * inverse_mod(m_s, modulus)
     # find the cube root of the result
     # // we have result_so_far = (m**3) % modulus_product which means m ** 3 = result_so_far + n * modulus_product
     # // m = cube_root(result_so_far + n * modulus_product) - need to find the n value that makes this equation true
@@ -62,18 +68,18 @@ def cube_root_mod_n(num, modulus):
     guess = num % modulus
     while not is_perfect_cube(guess):
         guess += modulus
-    return round(guess ** (1/3))
+    return round(guess ** (1 / 3))
 
 
 def test_cube_root_mod_n():
     root = cube_root_mod_n(3 ** 3, 11)
-    print(f'Root: {root}')
+    print(f"Root: {root}")
     assert root == 3
     assert cube_root_mod_n(3 ** 3, 17) == 3
 
 
 def is_perfect_cube(num):
-    root = round(num ** (1/3))
+    root = round(num ** (1 / 3))
     return root ** 3 == num
 
 
@@ -108,8 +114,8 @@ def integer_cube_root(num):
     previous = 1 << math.ceil(num.bit_length() / 3)
     current = 0
     while True:
-        numerator = 2*previous + num//(previous ** 2)
-        current = (numerator // 3)
+        numerator = 2 * previous + num // (previous ** 2)
+        current = numerator // 3
         if current >= previous:
             return previous
         else:
@@ -123,7 +129,7 @@ def challenge40():
     message = b"Hello, I'm a Javascript programmer."
     ciphertexts = encrypt_3_times(message)
     plaintext = crt_recover_plaintext(ciphertexts)
-    print(f'Plaintext: {plaintext}')
+    print(f"Plaintext: {plaintext}")
 
 
 def test_integer_cube_root():
@@ -131,7 +137,8 @@ def test_integer_cube_root():
     for num in test_nums:
         root = integer_cube_root(num)
         print(
-            f'Number: {num}, Cube root: {root}, cubed: {root ** 3}, next cubed: {(root + 1) ** 3}')
+            f"Number: {num}, Cube root: {root}, cubed: {root ** 3}, next cubed: {(root + 1) ** 3}"
+        )
 
 
 if __name__ == "__main__":

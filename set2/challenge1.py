@@ -16,14 +16,14 @@ def pkcs7_unpad(padded):
     padding_length = padded[-1]
     expected_padding = bytes([padding_length] * padding_length)
     if padded[-padding_length:] != expected_padding:
-        raise ValueError('invalid PKCS#7 padding')
+        raise ValueError("invalid PKCS#7 padding")
     unpadded = padded[:-padding_length]
     return unpadded
 
 
 def challenge1():
-    padded = pkcs7_pad(b'YELLOW SUBMARINE', 20)
-    print(f'Padded: {padded}')
+    padded = pkcs7_pad(b"YELLOW SUBMARINE", 20)
+    print(f"Padded: {padded}")
 
 
 if __name__ == "__main__":

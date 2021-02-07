@@ -52,7 +52,7 @@ class MersenneTwister:
 
     def extract_number(self):
         constants = self.constants
-        if self.index == None:
+        if self.index is None:
             raise ValueError("Generator was never seeded")
         elif self.index == constants.n:
             # generate next state and then get number from that

@@ -1,8 +1,8 @@
 import random
+from typing import Dict
 
+from conversions import base64_to_bytes
 from Crypto.Random import get_random_bytes
-
-from conversions import base64_to_bytes, bytes_to_hex
 from set1.challenge1_2 import xor_bytes
 from set1.challenge8 import get_blocks
 from set2.challenge1 import pkcs7_pad, pkcs7_unpad
@@ -151,19 +151,9 @@ def get_key_one_byte(
             return plaintext_byte
 
 
-def get_key_one_byte_padding(cipher, prev_block, current_block, known, block_size):
-    original_ciphertext_byte = prev_block[byte_index]
-    byte_guess, _ = get_key_one_byte_guess(
-        cipher, prev_block, current_block, known, block_size
-    )
-    for padding_guess in range(1, block_size + 1):
-        # padding guess would be in the plaintext
-        intermediate_byte = padding_guess ^ original_ciphertext_byte
-
-
 def challenge1():
     cipher = Encryption()
-    plaintext_dict = {}
+    plaintext_dict: Dict[int, str] = {}
     while len(plaintext_dict) < 10:
         # pretty print output of number of strings found
         num_found = len(plaintext_dict)
@@ -178,9 +168,9 @@ def challenge1():
 
     print()
     sorted_dict = sorted(plaintext_dict)
-    plaintext = [plaintext_dict[k] for k in sorted_dict]
+    plaintext_final = [plaintext_dict[k] for k in sorted_dict]
     print(f"Plaintext:")
-    print("\n".join(plaintext))
+    print("\n".join(plaintext_final))
 
 
 if __name__ == "__main__":

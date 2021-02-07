@@ -1,6 +1,5 @@
-from challenge33 import diffie_hellman, generate_session
-from challenge34 import (Receiver, Sender, decrypt, encrypt, get_constants,
-                         intercept_messages)
+from .challenge33 import diffie_hellman, generate_session
+from .challenge34 import decrypt, encrypt, get_constants
 
 
 class Sender2:

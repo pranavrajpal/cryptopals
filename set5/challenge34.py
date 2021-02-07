@@ -1,12 +1,9 @@
-import struct
-
 from Crypto.Random import get_random_bytes
-
 from set2.challenge1 import pkcs7_pad, pkcs7_unpad
 from set2.challenge2 import decrypt_AES_CBC, encrypt_AES_CBC
 from set4.challenge28 import sha1_hash
-from set5.challenge33 import (diffie_hellman, generate_private,
-                              generate_public, generate_session, get_constants)
+
+from .challenge33 import diffie_hellman, generate_session, get_constants
 
 CONSTANTS = get_constants()
 p, g = CONSTANTS.p, CONSTANTS.g

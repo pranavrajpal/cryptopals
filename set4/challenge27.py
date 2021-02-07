@@ -1,11 +1,8 @@
 from Crypto.Random import get_random_bytes
-
 from set1.challenge1_2 import xor_bytes
 from set1.challenge8 import get_blocks
 from set2.challenge1 import pkcs7_pad, pkcs7_unpad
 from set2.challenge2 import decrypt_AES_CBC, encrypt_AES_CBC
-from set2.challenge5 import url_decode, url_encode
-from set2.challenge8 import url_decode_bytes
 
 
 class Encryption:
@@ -22,7 +19,7 @@ class Encryption:
         decrypted = decrypt_AES_CBC(encrypted_bytes, self.key, self.key)
         unpadded = pkcs7_unpad(decrypted)
         try:
-            ascii_text = unpadded.encode("ascii")
+            unpadded.decode("ascii")
         except:
             # return decrypted message when invalid ascii
             return unpadded

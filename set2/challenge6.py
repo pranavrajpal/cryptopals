@@ -1,13 +1,14 @@
 import math
 import random
+from typing import List, Tuple
+
+from conversions import base64_to_bytes
+from Crypto.Random import get_random_bytes
+from set1.challenge8 import get_blocks
 
 from challenge1 import pkcs7_pad, pkcs7_unpad
 from challenge3 import encrypt_AES_ECB, find_AES_mode
 from challenge4 import determine_block_size
-from Crypto.Random import get_random_bytes
-
-from conversions import base64_to_bytes
-from set1.challenge8 import get_blocks
 
 
 class Encryption:
@@ -30,7 +31,7 @@ YnkK"""
 def get_prefix_length(encryption_func, block_size):
     # keep increasing input length until prefix length between previous input and current input doesn't change
     # means that just added byte is at the beginning of a block
-    prefix_length_changes = []
+    prefix_length_changes: List[Tuple[int, int]] = []
 
     prev_prefix_length = None
     for input_length in range(100):

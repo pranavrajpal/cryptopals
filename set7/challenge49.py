@@ -1,18 +1,16 @@
 from Crypto.Random import get_random_bytes
-
 from set1.challenge1_2 import xor_bytes
 from set1.challenge8 import get_blocks
-from set2.challenge1 import pkcs7_pad, pkcs7_unpad
+from set2.challenge1 import pkcs7_pad
 from set2.challenge2 import encrypt_AES_CBC
 from set2.challenge5 import url_decode, url_encode
-from set5.challenge36 import create_connection
 
 # ID numbers for API server
 CLIENT_ID = 2
 ATTACKER_ID = 1
 
 
-def cbc_mac(message, key, iv):
+def cbc_mac(message: bytes, key, iv):
     """Calculates the CBC-MAC of the bytestring `message` with the bytestring `key`"""
     padded_message = pkcs7_pad(message, 16)
     encrypted = encrypt_AES_CBC(padded_message, key, iv)

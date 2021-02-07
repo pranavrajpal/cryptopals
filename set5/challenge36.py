@@ -1,21 +1,24 @@
-import queue
+from __future__ import annotations
+
 import socket
 import sys
+from queue import Queue
 from threading import Thread
+from typing import Any
 
 from Crypto.Hash import HMAC, SHA256
 from Crypto.Random import get_random_bytes
 
-from set5.challenge33 import get_constants
-from set5.challenge34 import diffie_hellman, generate_private
+from .challenge33 import get_constants
+from .challenge34 import diffie_hellman, generate_private
 
 
 class ConnectionEndpoint:
-    def __init__(self, send_queue, receive_queue):
+    def __init__(self, send_queue: Queue[Any], receive_queue: Queue[Any]):
         self.send_queue = send_queue
         self.receive_queue = receive_queue
 
-    def send(self, message):
+    def send(self, message: Any):
         self.send_queue.put(message)
 
     def receive(self):
@@ -29,8 +32,8 @@ class ConnectionEndpoint:
 
 def create_connection():
     """Returns the tuple (endpoint1, endpoint2), where both endpoints can send data to and receive data from the other"""
-    queue1 = queue.Queue(0)
-    queue2 = queue.Queue(0)
+    queue1: Queue[Any] = Queue(0)
+    queue2: Queue[Any] = Queue(0)
     # messages sent from endpoint 1 are received by endpoint 2 and vice versa
     endpoint1 = ConnectionEndpoint(queue1, queue2)
     endpoint2 = ConnectionEndpoint(queue2, queue1)

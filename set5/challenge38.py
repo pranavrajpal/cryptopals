@@ -1,10 +1,16 @@
 from threading import Thread
 
-from challenge33 import diffie_hellman, generate_public, get_constants
-from challenge36 import (bytes_to_num, create_connection, hmac_sha256,
-                         num_to_bytes, sha256_hash)
 from Crypto.Random import get_random_bytes
 from Crypto.Random.random import getrandbits
+
+from .challenge33 import diffie_hellman, generate_public, get_constants
+from .challenge36 import (
+    bytes_to_num,
+    create_connection,
+    hmac_sha256,
+    num_to_bytes,
+    sha256_hash,
+)
 
 
 def simplified_srp_server(channel, password):
@@ -72,7 +78,7 @@ def mitm_simplified_srp_server(channel):
             K = sha256_hash(num_to_bytes(S))
             hmac = hmac_sha256(K, salt)
             if hmac == expected_hmac:
-                print(f"Found password: {line}")
+                print(f"Found password: {line.decode()}")
                 return line
 
 

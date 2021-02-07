@@ -1,9 +1,11 @@
-from challenge1 import pkcs7_pad, pkcs7_unpad
-from challenge3 import encrypt_AES_ECB, find_AES_mode
-from Crypto.Random import get_random_bytes
+from typing import List
 
 from conversions import base64_to_bytes
+from Crypto.Random import get_random_bytes
 from set1.challenge8 import get_blocks
+
+from challenge1 import pkcs7_pad, pkcs7_unpad
+from challenge3 import encrypt_AES_ECB, find_AES_mode
 
 
 class Encryption:
@@ -15,7 +17,7 @@ dXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUg
 YnkK"""
         self.unknown_string = base64_to_bytes(base64_encoded)
 
-    def encrypt_append(self, input_bytes):
+    def encrypt_append(self, input_bytes: bytes):
         padded = pkcs7_pad(input_bytes + self.unknown_string, 16)
         encrypted = encrypt_AES_ECB(padded, self.key)
         return encrypted
@@ -23,7 +25,7 @@ YnkK"""
 
 def determine_block_size(encryption_func):
     # list of block sizes which going to caused the output to change size
-    changing_block_sizes = []
+    changing_block_sizes: List[int] = []
     previous_length = None
     for input_length in range(1, 50):
         input_bytes = b"A" * input_length

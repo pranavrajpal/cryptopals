@@ -1,7 +1,4 @@
-from conversions import base64_to_bytes
-
-
-def pkcs7_pad(unpadded, block_size):
+def pkcs7_pad(unpadded: bytes, block_size: int) -> bytes:
     length = len(unpadded)
     last_block_amount = length % block_size
     needed_padding = block_size - last_block_amount
@@ -12,7 +9,7 @@ def pkcs7_pad(unpadded, block_size):
     return unpadded + padding
 
 
-def pkcs7_unpad(padded):
+def pkcs7_unpad(padded: bytes) -> bytes:
     padding_length = padded[-1]
     expected_padding = bytes([padding_length] * padding_length)
     if padded[-padding_length:] != expected_padding:
@@ -22,7 +19,7 @@ def pkcs7_unpad(padded):
 
 
 def challenge1():
-    padded = pkcs7_pad(b"YELLOW SUBMARINE", 20)
+    padded = pkcs7_pad(b"YELLOW SUBMARINE", 20).decode('utf-8')
     print(f"Padded: {padded}")
 
 

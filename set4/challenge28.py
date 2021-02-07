@@ -5,7 +5,6 @@ import struct
 import numpy as np
 from Crypto.Hash import SHA1
 from Crypto.Random import get_random_bytes
-
 from set1.challenge8 import get_blocks
 
 # turn off overflow warnings
@@ -32,8 +31,8 @@ def sha1_hash(message, registers=None, message_length_bits=None):
     else:
         h0, h1, h2, h3, h4 = map(np.uint32, registers)
     for block in blocks:
-        w = struct.unpack(">16I", block)
-        w = list(map(np.uint32, w))
+        w_tuple = struct.unpack(">16I", block)
+        w = list(map(np.uint32, w_tuple))
         # message schedule
         for i in range(16, 80):
             num = rol(w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16], 1)
@@ -87,7 +86,7 @@ def test_sha1_hash():
     # message = b''
     pycrypto_hash = SHA1.new()
     pycrypto_hash.update(message)
-    print(f"Pycrypto hash: {pycrypto_hash.digest()}")
+    print(f"Pycrypto hash: {pycrypto_hash.digest().decode('utf-8')}")
     my_hash = sha1_hash(message)
     print(f"My hash: {my_hash}")
     correct = my_hash == pycrypto_hash.digest()

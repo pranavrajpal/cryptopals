@@ -1,8 +1,9 @@
-from challenge49 import cbc_mac
-
+# TODO: figure out all of the import problems
 from set1.challenge1_2 import xor_bytes
 from set1.challenge8 import get_blocks
 from set2.challenge2 import encrypt_AES_CBC
+
+from ..challenge49 import cbc_mac
 
 
 def forge_message(goal_message, original_message, key, iv):

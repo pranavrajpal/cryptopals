@@ -2,6 +2,7 @@ from Crypto.Hash import SHA1
 from Crypto.Random import random
 
 from conversions import bytes_to_hex, hex_to_bytes
+
 # from set4.challenge29 import sha1_hash
 from set5.challenge36 import bytes_to_num, num_to_bytes
 from set5.challenge39 import inverse_mod

@@ -2,8 +2,9 @@ import math
 import random
 from typing import List, Tuple
 
-from conversions import base64_to_bytes
 from Crypto.Random import get_random_bytes
+
+from conversions import base64_to_bytes
 from set1.challenge8 import get_blocks
 
 from .challenge1 import pkcs7_pad, pkcs7_unpad

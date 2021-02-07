@@ -5,6 +5,7 @@ import struct
 import numpy as np
 from Crypto.Hash import SHA1
 from Crypto.Random import get_random_bytes
+
 from set1.challenge8 import get_blocks
 
 # turn off overflow warnings

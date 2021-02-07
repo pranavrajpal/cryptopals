@@ -1,7 +1,11 @@
 import itertools
 
-from challenge43 import (get_dsa_constants, get_private_dsa_key_message_val,
-                         get_sha1_fingerprint, sha1_hash)
+from challenge43 import (
+    get_dsa_constants,
+    get_private_dsa_key_message_val,
+    get_sha1_fingerprint,
+    sha1_hash,
+)
 
 from set5.challenge39 import inverse_mod
 

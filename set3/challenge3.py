@@ -1,5 +1,6 @@
-from conversions import base64_to_bytes
 from Crypto.Random import get_random_bytes
+
+from conversions import base64_to_bytes
 from set1.challenge1_2 import xor_bytes
 from set1.challenge3 import brute_force_single_byte_xor
 

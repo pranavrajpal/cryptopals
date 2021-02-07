@@ -2,8 +2,9 @@ import array
 import struct
 
 import numpy as np
-from conversions import bytes_to_hex, hex_to_bytes
 from Crypto.Random import get_random_bytes
+
+from conversions import bytes_to_hex, hex_to_bytes
 from set1.challenge8 import get_blocks
 from set2.challenge8 import url_decode_bytes
 

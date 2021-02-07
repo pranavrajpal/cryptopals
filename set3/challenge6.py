@@ -1,7 +1,7 @@
 import random
 import time
 
-from challenge5 import MersenneTwister
+from .challenge5 import MersenneTwister
 
 
 def crack_mt19937_seed_timestamp(rng, rand_num, current_time):

@@ -1,4 +1,4 @@
-from challenge1 import pkcs7_unpad
+from .challenge1 import pkcs7_unpad
 
 
 def challenge7():

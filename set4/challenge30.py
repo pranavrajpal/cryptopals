@@ -2,12 +2,12 @@ import array
 import struct
 
 import numpy as np
-from challenge28 import generate_sha1_padding, rol
-from Crypto.Random import get_random_bytes
-
 from conversions import bytes_to_hex, hex_to_bytes
+from Crypto.Random import get_random_bytes
 from set1.challenge8 import get_blocks
 from set2.challenge8 import url_decode_bytes
+
+from .challenge28 import rol
 
 # def sample_md4():
 #     h = MD4.new()

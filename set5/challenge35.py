@@ -50,7 +50,7 @@ def change_g_value(g_value, session_value, sender_public):
     receiver = Receiver2()
     p, g = sender.request1()
     receiver.response1(p, g_value)
-    A = sender.request2()
+    A = sender.request2()  # noqa
     B = receiver.response2(sender_public)
     sender.response2(B)
     intercept_messages2(sender, receiver, session_value)
@@ -58,7 +58,7 @@ def change_g_value(g_value, session_value, sender_public):
 
 def challenge35():
     constants = get_constants()
-    p, g = constants.p, constants.g
+    p, g = constants.p, constants.g  # noqa
     change_g_value(1, 1, 1)
     change_g_value(p, 0, 0)
     change_g_value(p - 1, 1, 1)

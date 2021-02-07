@@ -1,9 +1,8 @@
-from challenge3 import Encryption, guess_keystream
-
-from conversions import base64_to_bytes
 from set1.challenge1_2 import xor_bytes
 from set1.challenge6 import get_repeating_xor_key, repeating_key_xor
 from set1.challenge8 import get_blocks
+
+from .challenge3 import Encryption, guess_keystream
 
 
 def break_CTR_repeated_key_xor(bytestring_list):

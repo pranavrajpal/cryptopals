@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import socket
-import sys
 from queue import Queue
 from threading import Thread
 from typing import Any
@@ -9,8 +7,7 @@ from typing import Any
 from Crypto.Hash import HMAC, SHA256
 from Crypto.Random import get_random_bytes
 
-from .challenge33 import get_constants
-from .challenge34 import diffie_hellman, generate_private
+from .challenge33 import diffie_hellman, generate_private, get_constants
 
 
 class ConnectionEndpoint:

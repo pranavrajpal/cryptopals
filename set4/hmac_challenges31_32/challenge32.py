@@ -1,11 +1,10 @@
-import statistics
 import time
 
 import requests
-from challenge31 import check_signature, find_hmac_file
-from helper_functions import hmac_sha1
-
 from conversions import bytes_to_hex
+
+from .challenge31 import check_signature
+from .helper_functions import hmac_sha1
 
 # constants
 ROUNDS = 10

@@ -6,9 +6,9 @@ from conversions import base64_to_bytes
 from Crypto.Random import get_random_bytes
 from set1.challenge8 import get_blocks
 
-from challenge1 import pkcs7_pad, pkcs7_unpad
-from challenge3 import encrypt_AES_ECB, find_AES_mode
-from challenge4 import determine_block_size
+from .challenge1 import pkcs7_pad, pkcs7_unpad
+from .challenge3 import encrypt_AES_ECB, find_AES_mode
+from .challenge4 import determine_block_size
 
 
 class Encryption:

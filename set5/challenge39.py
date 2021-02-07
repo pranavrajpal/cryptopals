@@ -1,6 +1,6 @@
 from Crypto.Util.number import getPrime
 
-from set5.challenge36 import bytes_to_num, num_to_bytes
+from .challenge36 import bytes_to_num, num_to_bytes
 
 
 def rsa_generate_keys(num_bits=1024):

@@ -1,12 +1,9 @@
 import math
-from functools import reduce
-from operator import mul
 
 from gmpy2 import iroot, mpz
 
-from set5.challenge36 import num_to_bytes
-from set5.challenge39 import (gcd, inverse_mod, rsa_decrypt, rsa_encrypt,
-                              rsa_generate_keys)
+from .challenge36 import num_to_bytes
+from .challenge39 import gcd, inverse_mod, rsa_encrypt, rsa_generate_keys
 
 
 def encrypt_3_times(message):

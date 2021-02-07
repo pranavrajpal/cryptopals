@@ -1,7 +1,13 @@
 from threading import Thread
 
-from challenge36 import (create_connection, get_srp_constants, hmac_sha256,
-                         num_to_bytes, sha256_hash, srp_client, srp_server)
+from .challenge36 import (
+    create_connection,
+    get_srp_constants,
+    hmac_sha256,
+    num_to_bytes,
+    sha256_hash,
+    srp_server,
+)
 
 
 def fake_srp_client(channel, A_val):

@@ -61,8 +61,8 @@ def decrypt(received, session):
 
 
 def diffie_hellman_mitm(sender, receiver):
-    A = sender.initial_request()
-    B = receiver.initial_response(p)
+    A = sender.initial_request()  # noqa
+    B = receiver.initial_response(p)  # noqa
     # sets both public keys to p, so that s = (B ** a) % p turns into (p ** a) % p = 0 because (p ** a) is always a multiple of p
     sender.create_connection(p)
     intercept_messages(sender, receiver, 0)
@@ -85,7 +85,7 @@ def test_connection():
     B = receiver.initial_response(A)
     sender.create_connection(B)
     encrypted = sender.send_message(b"Hello")
-    returned = receiver.respond_to_message(encrypted)
+    returned = receiver.respond_to_message(encrypted)  # noqa
 
 
 def challenge34():

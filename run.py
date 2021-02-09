@@ -19,4 +19,11 @@ parts = suffix_removed.parts
 
 module_name = ".".join(parts)
 # set the current directory so that importing from another set without a relative import
-run(["python", "-m", module_name], cwd=directory_root)
+
+run(
+    ["python", "-m", module_name],
+    # add the root to python path and set the file location to the cwd
+    # to make created files appear in the same location as the script that created it
+    env={"PYTHONPATH": str(directory_root)},
+    cwd=str(run_file.parent),
+)

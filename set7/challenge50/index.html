@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBC MAC Code Checker</title>
 </head>
+<!-- AES library  -->
+<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+
+<!-- TODO: find out how to do this in javascript -->
 
 <body>
     <h1>Check your code with CBC MAC</h1>
@@ -16,6 +20,9 @@
     <p id="filename"></p>
 
     <script>
+        function cbcMac(message, key, iv) {
+
+        }
         function checkFile(event) {
             const element = document.getElementById('filename');
             const input = document.getElementById('inputFile');

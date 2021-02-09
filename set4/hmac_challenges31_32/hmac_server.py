@@ -1,13 +1,12 @@
 import random
 import sys
 import time
-from enum import Enum
 
-from Crypto.Random import get_random_bytes
 from flask import Flask, make_response, request
-from helper_functions import hmac_sha1
 
 from conversions import bytes_to_hex, hex_to_bytes
+
+from .helper_functions import hmac_sha1
 
 app = Flask(__name__)
 

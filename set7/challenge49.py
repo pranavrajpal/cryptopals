@@ -11,7 +11,7 @@ CLIENT_ID = 2
 ATTACKER_ID = 1
 
 
-def cbc_mac(message: bytes, key, iv):
+def cbc_mac(message: bytes, key: bytes, iv: bytes) -> bytes:
     """Calculates the CBC-MAC of the bytestring `message` with the bytestring `key`"""
     padded_message = pkcs7_pad(message, 16)
     encrypted = encrypt_AES_CBC(padded_message, key, iv)

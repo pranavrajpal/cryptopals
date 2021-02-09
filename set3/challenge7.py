@@ -21,7 +21,6 @@ def undo_bit_shift_left_anded(final, shift_amt, anded, bit_size):
     initial_value = 0
     i = 0
     while i * shift_amt < bit_size:
-        high_len = bit_size - (i + 1) * shift_amt
         low_mask = ((1 << shift_amt) - 1) << (i * shift_amt)
         # if low_len > 0:
         #     high_mask = ((1 << shift_amt) - 1) << low_len

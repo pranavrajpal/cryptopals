@@ -1,25 +1,26 @@
 import itertools
-
-from challenge43 import (
-    get_dsa_constants,
-    get_private_dsa_key_message_val,
-    get_sha1_fingerprint,
-    sha1_hash,
-)
+from typing import Dict, Union
 
 from set5.challenge39 import inverse_mod
 
+from .challenge43 import (
+    get_dsa_constants,
+    get_private_dsa_key_message_val,
+    get_sha1_fingerprint,
+)
+
 
 def parse_text_file():
-    lines = ""
+    lines = []
     with open("44.txt") as file_handle:
         lines = file_handle.read().splitlines()
-    current = {}
+    current: Dict[str, Union[str, int]] = {}
     messages = []
     for index, line in enumerate(lines):
         if index != 0 and index % 4 == 0:
             messages.append(current)
             current = {}
+        value: Union[str, int]
         key, value = line.split(": ")
         if key == "r" or key == "s":
             value = int(value)

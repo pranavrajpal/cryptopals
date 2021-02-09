@@ -22,7 +22,7 @@ def decrypt_AES_CBC(ciphertext, key, iv):
     return xor_bytes(unxored_plaintext, to_xor)
 
 
-def encrypt_AES_CBC(plaintext, key, iv):
+def encrypt_AES_CBC(plaintext: bytes, key: bytes, iv: bytes) -> bytes:
     """AES encrypts the bytestring `plaintext` in CBC mode using the given key and iv"""
     if len(plaintext) % 16 != 0:
         raise ValueError("Plaintext is not the correct length")
@@ -37,7 +37,7 @@ def encrypt_AES_CBC(plaintext, key, iv):
     return encrypted
 
 
-def encrypt_AES_ECB(plaintext, key):
+def encrypt_AES_ECB(plaintext: bytes, key: bytes):
     cipher = AES.new(key, AES.MODE_ECB)
     ciphertext = cipher.encrypt(plaintext)
     return ciphertext

@@ -98,17 +98,10 @@ def get_private_dsa_key(message, k, signature=None, constants=None):
     return get_private_dsa_key_message_val(h, k, signature, constants)
 
 
-def get_private_dsa_key_message_val(message_val, k, signature=None, constants=None):
-    """Determines private DSA key value given integer `message`, the value of k, and the signature (r, s).
-
-    If signature is None, r and s will be calculated from k and the message"""
+def get_private_dsa_key_message_val(message_val, k, signature, constants=None):
+    """Determines private DSA key value given integer `message`, the value of k, and the signature (r, s)."""
     p, q, g = get_dsa_constants(constants)
-    if signature is None:
-        r = pow(g, k, p) % q
-        k_inverse = inverse_mod(k, q)
-        s = (k_inverse * (message_val + x * r)) % q
-    else:
-        r, s = signature
+    r, s = signature
     # determine x
     r_inverse = inverse_mod(r, q)
     x = ((s * k - message_val) * r_inverse) % q

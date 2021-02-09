@@ -44,7 +44,6 @@ def find_hmac_byte_v2(filename, prefix):
     # dictionary of byte possibilities with their times -
     # highest means the signature was reported correct
     guesses = {}
-    correct_signature = None
     padding_amount = HMAC_SIZE - 1 - len(prefix)
     padding = b"\0" * padding_amount
     for byte_guess in range(0, 0xFF + 1):

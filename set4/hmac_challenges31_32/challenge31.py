@@ -34,7 +34,6 @@ def find_hmac_byte(filename, prefix, delay_ms_per_byte):
     # dictionary of byte possibilities with their times -
     # highest means the signature was reported correct
     guesses = {}
-    correct_signature = None
     padding_amount = HMAC_SIZE - 1 - len(prefix)
     padding = b"\0" * padding_amount
     expected_time_correct = (len(prefix) + 1) * delay_ms_per_byte

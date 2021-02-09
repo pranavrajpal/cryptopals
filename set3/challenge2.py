@@ -6,7 +6,7 @@ from set1.challenge8 import get_blocks
 from set2.challenge2 import encrypt_AES_ECB
 
 
-def encrypt_AES_CTR(bytestring, key, nonce):
+def encrypt_AES_CTR(bytestring: bytes, key: bytes, nonce: int) -> bytes:
     """Takes an arbitrary length message `bytestring`, a 16-byte `key`, and
     an integer `nonce` that is at most 8 bytes"""
     blocks = get_blocks(bytestring, 16)

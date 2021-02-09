@@ -1,6 +1,6 @@
 import math
 from itertools import zip_longest
-from math import ceil, floor
+from typing import List, Optional
 
 from Crypto.Random import get_random_bytes
 from Crypto.Random.random import randint
@@ -144,7 +144,7 @@ def pkcs_padding_oracle(oracle):
     # message_range is a list of closed intervals, each represented by a tuple of (lower_bound, upper_bound)
     message_range = [(2 * B, 3 * B - 1)]
 
-    def increment_until_pkcs(start_val, max_val=math.inf):
+    def increment_until_pkcs(start_val: int, max_val=math.inf) -> Optional[int]:
         """Increment `start_val` until it is a valid PKCS ciphertext, keeping the value in
         the interval [start_val, max_val)"""
         s = start_val
@@ -199,7 +199,7 @@ def pkcs_padding_oracle(oracle):
             sorted_intervals = new_intervals
         return new_intervals
 
-    s = [None]
+    s: List[Optional[int]] = [None]
     # find s1 = s[0] (Step 2a)
     s[0] = increment_until_pkcs(ceildiv(n, 3 * B))
     print(f"Found s1: {s[0]}")
@@ -207,7 +207,8 @@ def pkcs_padding_oracle(oracle):
     while True:
         if len(message_range) >= 2:
             # Step 2b (searching with multiple intervals)
-            new_s = increment_until_pkcs(s[-1] + 1)
+            # should have found s[0] by now, so s[-1] shouldn't be None
+            new_s = increment_until_pkcs(s[-1] + 1) # type: ignore
             s.append(new_s)
         else:
             # Step 2c (searching with one interval)

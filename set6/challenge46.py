@@ -1,4 +1,3 @@
-import math
 from fractions import Fraction
 from itertools import zip_longest
 
@@ -103,18 +102,18 @@ def get_plaintext_parity_oracle(oracle):
         # print(num_to_bytes(int(high)), low, high)
         print_bytes(num_to_bytes(int(high)))
         # print(math.floor(low), math.floor(high))
-    high = int(high)
-    low = int(low)
-    print(f"High: {num_to_bytes(high)}")
-    print(f"Low: {num_to_bytes(low)}")
-    assert high - low == 1
+    high_int = int(high)
+    low_int = int(low)
+    print(f"High: {num_to_bytes(high_int)}")
+    print(f"Low: {num_to_bytes(low_int)}")
+    assert high_int - low_int == 1
     original_odd = oracle.decrypt_odd(oracle.get_ciphertext())
-    if high % 2 == 1:
-        odd_num = high
-        even_num = low
+    if high_int % 2 == 1:
+        odd_num = high_int
+        even_num = low_int
     else:
-        odd_num = low
-        even_num = high
+        odd_num = low_int
+        even_num = high_int
     if original_odd:
         plaintext = odd_num
     else:

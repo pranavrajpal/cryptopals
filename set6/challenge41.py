@@ -39,7 +39,7 @@ def challenge41():
     message = b"{time: 1356304276,\n  social: '555-55-5555',\n}"
     # message = b'This is a super secret message'
     ciphertext = rsa.encrypt(message)
-    recovered_plaintext = rsa.decrypt(ciphertext)
+    recovered_plaintext = rsa.decrypt(ciphertext)  # noqa
     plaintext = unpadded_rsa_oracle(rsa, ciphertext)
     print(f"Plaintext: {plaintext}")
 

@@ -1,4 +1,3 @@
-import random
 import sys
 import time
 
@@ -28,7 +27,7 @@ key = None
 @app.before_first_request
 def generate_key():
     global key
-    key_size = random.randint(5, 100)
+    # key_size = random.randint(5, 100)
     # key = get_random_bytes(key_size)
     # print(bytes_to_hex(key))
     # TODO: change this back to random key

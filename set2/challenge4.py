@@ -77,7 +77,7 @@ def challenge4():
     print(f"Mode: {mode}")
     unknown_string_padded = find_appended_AES_ECB(cipher.encrypt_append, block_size)
     unpadded = pkcs7_unpad(unknown_string_padded)
-    print(f"Unknown string:")
+    print("Unknown string:")
     print(unpadded.decode("utf8"))
     # print(f'With unknown string: {cipher.encrypt_append(b"")}')
     # print(f'With guess: {encrypt_AES_ECB(unknown_string)}')

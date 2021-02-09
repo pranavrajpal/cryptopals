@@ -86,7 +86,7 @@ def test_connection():
     B = receiver.initial_response(A)
     sender.create_connection(B)
     encrypted = sender.send_message(b"Hello")
-    returned = receiver.respond_to_message(encrypted)  # noqa
+    receiver.respond_to_message(encrypted)
 
 
 def challenge34():

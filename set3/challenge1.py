@@ -52,7 +52,7 @@ def get_plaintext(cipher, ciphertext, iv, block_size):
 
 def check_valid_padding(bytestring):
     try:
-        unpadded = pkcs7_unpad(bytestring)
+        pkcs7_unpad(bytestring)
         return True
     except ValueError as e:
         if "PKCS" in e.args[0]:
@@ -170,7 +170,7 @@ def challenge1():
     print()
     sorted_dict = sorted(plaintext_dict)
     plaintext_final = [plaintext_dict[k] for k in sorted_dict]
-    print(f"Plaintext:")
+    print("Plaintext:")
     print("\n".join(plaintext_final))
 
 

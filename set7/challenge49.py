@@ -198,7 +198,7 @@ def challenge49():
     normal_client, server = create_server_client(CLIENT_ID)
     captured_message = normal_client.send_messages([(3, 10)])
 
-    response2 = cbc_length_extension(attacker_client, server, captured_message)
+    response2 = cbc_length_extension(attacker_client, server, captured_message)  # noqa
 
 
 if __name__ == "__main__":

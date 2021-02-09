@@ -2,14 +2,12 @@ import struct
 
 from conversions import base64_to_bytes
 from set1.challenge1_2 import xor_bytes
-from set1.challenge8 import get_blocks
 from set2.challenge2 import encrypt_AES_ECB
 
 
 def encrypt_AES_CTR(bytestring: bytes, key: bytes, nonce: int) -> bytes:
     """Takes an arbitrary length message `bytestring`, a 16-byte `key`, and
     an integer `nonce` that is at most 8 bytes"""
-    blocks = get_blocks(bytestring, 16)
     keystream = generate_keystream(key, nonce, len(bytestring))
     return xor_bytes(bytestring, keystream)
 

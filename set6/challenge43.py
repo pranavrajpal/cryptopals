@@ -1,10 +1,10 @@
 from Crypto.Hash import SHA1
 from Crypto.Random import random
 
-from conversions import bytes_to_hex, hex_to_bytes
+from conversions import hex_to_bytes
 
 # from set4.challenge29 import sha1_hash
-from set5.challenge36 import bytes_to_num, num_to_bytes
+from set5.challenge36 import bytes_to_num
 from set5.challenge39 import inverse_mod
 
 
@@ -111,7 +111,7 @@ def get_private_dsa_key_message_val(message_val, k, signature, constants=None):
 def brute_force_private_key(message, public, signature, constants=None):
     """Determines the private key given the bytestring `message`, the signature (r, s), and the public key"""
     p, q, g = get_dsa_constants(constants)
-    expected_hash = hex_to_bytes("0954edd5e0afe5542a4adf012611a91912a3ec16")
+    expected_hash = hex_to_bytes("0954edd5e0afe5542a4adf012611a91912a3ec16")  # noqa
     for k in range(0, 2 ** 16 + 1):
         print(f"\rK = {k}", end="")
         private = get_private_dsa_key(message, k, signature=signature)

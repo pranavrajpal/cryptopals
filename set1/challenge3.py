@@ -43,7 +43,7 @@ def is_valid_ascii(bytestring):
     try:
         input_string = bytestring.decode("utf-8")
         return set(input_string).issubset(string.printable)
-    except UnicodeDecodeError as e:
+    except UnicodeDecodeError:
         return False
 
 

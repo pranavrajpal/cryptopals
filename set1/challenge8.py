@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from conversions import hex_to_bytes
 
 
-def get_blocks(bytestring, blocksize):
+def get_blocks(bytestring: bytes, blocksize: int) -> list[bytes]:
     blocks = [
         bytestring[i : i + blocksize] for i in range(0, len(bytestring), blocksize)
     ]

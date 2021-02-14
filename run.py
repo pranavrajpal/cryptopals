@@ -7,23 +7,28 @@ from subprocess import run
 This also adds the current directory to the python path and runs it as
 a package"""
 
-run_path = sys.argv[1]
-# root of repo
-directory_root = Path(__file__).parent.resolve()
-# path to run
-run_file = Path(run_path).resolve()
-relative_path = run_file.relative_to(directory_root)
-suffix_removed = relative_path.with_suffix("")
-# this is a relative path, so parts doesn't include a leading slash
-parts = suffix_removed.parts
 
-module_name = ".".join(parts)
-# set the current directory so that importing from another set without a relative import
+def main():
+    run_path = sys.argv[1]
+    # root of repo
+    directory_root = Path(__file__).parent.resolve()
+    # path to run
+    run_file = Path(run_path).resolve()
+    relative_path = run_file.relative_to(directory_root)
+    suffix_removed = relative_path.with_suffix("")
+    # this is a relative path, so parts doesn't include a leading slash
+    parts = suffix_removed.parts
 
-run(
-    ["python", "-m", module_name],
-    # add the root to python path and set the file location to the cwd
-    # to make created files appear in the same location as the script that created it
-    env={"PYTHONPATH": str(directory_root)},
-    cwd=str(run_file.parent),
-)
+    module_name = ".".join(parts)
+    # set the current directory so that importing from another set without a relative import
+
+    run(
+        ["python", "-m", module_name],
+        # add the root to python path and set the file location to the cwd
+        # to make created files appear in the same location as the script that created it
+        cwd=str(run_file.parent),
+    )
+
+
+if __name__ == "__main__":
+    main()

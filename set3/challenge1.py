@@ -3,11 +3,11 @@ from typing import Dict
 
 from Crypto.Random import get_random_bytes
 
-from conversions import base64_to_bytes
-from set1.challenge1_2 import xor_bytes
-from set1.challenge8 import get_blocks
-from set2.challenge1 import pkcs7_pad, pkcs7_unpad
-from set2.challenge2 import decrypt_AES_CBC, encrypt_AES_CBC
+from ..conversions import base64_to_bytes
+from ..set1.challenge1_2 import xor_bytes
+from ..set1.challenge8 import get_blocks
+from ..set2.challenge1 import pkcs7_pad, pkcs7_unpad
+from ..set2.challenge2 import decrypt_AES_CBC, encrypt_AES_CBC
 
 
 class Encryption:

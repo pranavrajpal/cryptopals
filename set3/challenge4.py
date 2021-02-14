@@ -1,6 +1,6 @@
-from set1.challenge1_2 import xor_bytes
-from set1.challenge6 import get_repeating_xor_key, repeating_key_xor
-from set1.challenge8 import get_blocks
+from ..set1.challenge1_2 import xor_bytes
+from ..set1.challenge6 import get_repeating_xor_key, repeating_key_xor
+from ..set1.challenge8 import get_blocks
 
 from .challenge3 import Encryption, guess_keystream
 

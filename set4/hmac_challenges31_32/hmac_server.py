@@ -3,8 +3,7 @@ import time
 
 from flask import Flask, make_response, request
 
-from conversions import bytes_to_hex, hex_to_bytes
-
+from ...conversions import bytes_to_hex, hex_to_bytes
 from .helper_functions import hmac_sha1
 
 app = Flask(__name__)

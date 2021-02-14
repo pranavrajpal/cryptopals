@@ -1,6 +1,6 @@
-from conversions import hex_to_bytes
-from set1.challenge1_2 import xor_bytes
-from set4.challenge28 import sha1_hash
+from ...conversions import hex_to_bytes
+from ...set1.challenge1_2 import xor_bytes
+from ...set4.challenge28 import sha1_hash
 
 
 def hmac_sha1(key, message):

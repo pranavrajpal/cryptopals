@@ -1,7 +1,7 @@
-from conversions import hex_to_bytes
-from set5.challenge36 import bytes_to_num, num_to_bytes, sha256_hash
-from set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys
-from set5.challenge40 import integer_cube_root
+from ..conversions import hex_to_bytes
+from ..set5.challenge36 import bytes_to_num, num_to_bytes, sha256_hash
+from ..set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys
+from ..set5.challenge40 import integer_cube_root
 
 # taken from https://tools.ietf.org/html/rfc3447#section-9.2
 ASN1_IDENTIFIER_SHA256 = hex_to_bytes(

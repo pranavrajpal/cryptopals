@@ -1,6 +1,6 @@
 from Crypto.Cipher import AES
 
-from conversions import base64_to_bytes
+from ..conversions import base64_to_bytes
 
 
 def decrypt_AES_ECB(ciphertext, key):

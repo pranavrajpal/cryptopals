@@ -7,9 +7,9 @@ from secrets import randbits
 
 from Crypto.Random import get_random_bytes
 
-from set2.challenge1 import pkcs7_pad
-from set2.challenge2 import encrypt_AES_CBC
-from set3.challenge2 import encrypt_AES_CTR
+from ..set2.challenge1 import pkcs7_pad
+from ..set2.challenge2 import encrypt_AES_CBC
+from ..set3.challenge2 import encrypt_AES_CTR
 
 BASE64_ALPHABET = string.ascii_letters + string.digits + "-_" + "="
 

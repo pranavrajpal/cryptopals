@@ -1,4 +1,4 @@
-from set5.challenge39 import inverse_mod
+from ..set5.challenge39 import inverse_mod
 
 from .challenge43 import dsa_generate_keys, dsa_sign, dsa_verify, get_dsa_constants
 

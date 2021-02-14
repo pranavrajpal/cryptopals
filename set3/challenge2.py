@@ -1,8 +1,8 @@
 import struct
 
-from conversions import base64_to_bytes
-from set1.challenge1_2 import xor_bytes
-from set2.challenge2 import encrypt_AES_ECB
+from ..conversions import base64_to_bytes
+from ..set1.challenge1_2 import xor_bytes
+from ..set2.challenge2 import encrypt_AES_ECB
 
 
 def encrypt_AES_CTR(bytestring: bytes, key: bytes, nonce: int) -> bytes:

@@ -7,8 +7,8 @@ import time
 
 from Crypto.Random import get_random_bytes
 
-from set1.challenge1_2 import xor_bytes
-from set1.challenge8 import get_blocks
+from ..set1.challenge1_2 import xor_bytes
+from ..set1.challenge8 import get_blocks
 
 from .challenge5 import MersenneTwister
 

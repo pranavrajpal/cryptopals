@@ -2,8 +2,8 @@ import struct
 
 from Crypto.Random import get_random_bytes
 
-from set2.challenge8 import url_decode_bytes
-from set4.challenge28 import generate_sha1_padding, sha1_hash
+from ..set2.challenge8 import url_decode_bytes
+from ..set4.challenge28 import generate_sha1_padding, sha1_hash
 
 
 class Encryption:

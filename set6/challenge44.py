@@ -1,7 +1,7 @@
 import itertools
 from typing import Dict, Union
 
-from set5.challenge39 import inverse_mod
+from ..set5.challenge39 import inverse_mod
 
 from .challenge43 import (
     get_dsa_constants,

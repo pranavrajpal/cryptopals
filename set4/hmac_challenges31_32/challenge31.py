@@ -2,8 +2,7 @@ import time
 
 import requests
 
-from conversions import bytes_to_hex
-
+from ...conversions import bytes_to_hex
 from .helper_functions import hmac_sha1
 
 HMAC_SIZE = 20

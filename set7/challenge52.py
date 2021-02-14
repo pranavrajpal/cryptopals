@@ -10,8 +10,8 @@ from typing import Iterable
 import more_itertools  # type: ignore
 from Crypto.Cipher import DES
 
-from set1.challenge8 import get_blocks
-from set2.challenge1 import pkcs7_pad
+from ..set1.challenge8 import get_blocks
+from ..set2.challenge1 import pkcs7_pad
 
 HashState = int
 

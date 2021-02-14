@@ -2,13 +2,13 @@ import secrets
 
 from Crypto.Random import get_random_bytes
 
-from set1.challenge1_2 import xor_bytes
-from set2.challenge8 import url_decode_bytes
-from set3.challenge2 import encrypt_AES_CTR
+from ..set1.challenge1_2 import xor_bytes
+from ..set2.challenge8 import url_decode_bytes
+from ..set3.challenge2 import encrypt_AES_CTR
 
 
 class Encryption:
-    # copied from set2 challenge8
+    # copied from ..set2 challenge8
     def __init__(self):
         self.key = get_random_bytes(16)
         self.nonce = secrets.randbits(64)

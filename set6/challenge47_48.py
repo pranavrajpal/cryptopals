@@ -5,8 +5,8 @@ from typing import List, Optional
 from Crypto.Random import get_random_bytes
 from Crypto.Random.random import randint
 
-from set5.challenge36 import num_to_bytes
-from set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys
+from ..set5.challenge36 import num_to_bytes
+from ..set5.challenge39 import rsa_decrypt, rsa_encrypt, rsa_generate_keys
 
 
 def grouper(iterable, n, fillvalue=None):
@@ -208,7 +208,7 @@ def pkcs_padding_oracle(oracle):
         if len(message_range) >= 2:
             # Step 2b (searching with multiple intervals)
             # should have found s[0] by now, so s[-1] shouldn't be None
-            new_s = increment_until_pkcs(s[-1] + 1) # type: ignore
+            new_s = increment_until_pkcs(s[-1] + 1)  # type: ignore
             s.append(new_s)
         else:
             # Step 2c (searching with one interval)

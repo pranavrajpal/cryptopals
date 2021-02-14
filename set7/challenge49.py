@@ -1,10 +1,10 @@
 from Crypto.Random import get_random_bytes
 
-from set1.challenge1_2 import xor_bytes
-from set1.challenge8 import get_blocks
-from set2.challenge1 import pkcs7_pad
-from set2.challenge2 import encrypt_AES_CBC
-from set2.challenge5 import url_decode, url_encode
+from ..set1.challenge1_2 import xor_bytes
+from ..set1.challenge8 import get_blocks
+from ..set2.challenge1 import pkcs7_pad
+from ..set2.challenge2 import encrypt_AES_CBC
+from ..set2.challenge5 import url_decode, url_encode
 
 # ID numbers for API server
 CLIENT_ID = 2

@@ -2,9 +2,9 @@ import secrets
 
 from Crypto.Random import get_random_bytes
 
-from conversions import base64_to_bytes
-from set1.challenge1_2 import xor_bytes
-from set3.challenge2 import encrypt_AES_CTR, generate_keystream
+from ..conversions import base64_to_bytes
+from ..set1.challenge1_2 import xor_bytes
+from ..set3.challenge2 import encrypt_AES_CTR, generate_keystream
 
 
 class Encryption:

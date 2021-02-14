@@ -1,4 +1,4 @@
-from conversions import base64_to_bytes
+from ..conversions import base64_to_bytes
 
 from .challenge3 import brute_force_single_byte_xor
 from .challenge5 import repeating_key_xor

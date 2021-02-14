@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from conversions import hex_to_bytes
+from ..conversions import hex_to_bytes
 
 
 def get_blocks(bytestring: bytes, blocksize: int) -> list[bytes]:

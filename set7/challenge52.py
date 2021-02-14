@@ -4,16 +4,18 @@ import itertools
 import struct
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from os import urandom
 from typing import Iterable
 
 import more_itertools  # type: ignore
 from Crypto.Cipher import DES
-from Crypto.Random import get_random_bytes
 
 from set1.challenge8 import get_blocks
 from set2.challenge1 import pkcs7_pad
 
 HashState = int
+
+Block = bytes
 
 
 class Hasher(ABC):
@@ -34,7 +36,7 @@ class Hasher(ABC):
         return h
 
     @abstractmethod
-    def one_round(self, message: bytes, initial: HashState) -> HashState:
+    def one_round(self, block: Block, initial: HashState) -> HashState:
         """One round of the hash"""
         raise NotImplementedError
 
@@ -49,7 +51,7 @@ class WeakHash(Hasher):
     # DES has a block size of 8, so we'll use 8
     BLOCK_SIZE = 8
 
-    def one_round(self, block: bytes, state: HashState) -> HashState:
+    def one_round(self, block: Block, state: HashState) -> HashState:
         """Perform one round of the weak hash, returning the new state after the round"""
         # use DES because it will probably be very fast/easy to break
         key = struct.pack(">Q", state)
@@ -62,7 +64,7 @@ class WeakHash(Hasher):
 class StrongerHash(Hasher):
     BLOCK_SIZE = 8
 
-    def one_round(self, block: bytes, state: HashState) -> HashState:
+    def one_round(self, block: Block, state: HashState) -> HashState:
         key = struct.pack(">Q", state)
         cipher = DES.new(key, DES.MODE_ECB)
         encrypted = cipher.encrypt(block)
@@ -86,7 +88,7 @@ def combined_hash(message: bytes, state: HashState) -> HashState:
 @dataclass
 class Collision:
     final: int
-    messages: tuple[bytes, bytes]
+    messages: tuple[Block, Block]
 
 
 def find_collisions(
@@ -116,11 +118,11 @@ def list_collisions(hasher: Hasher, initial: HashState, blocks: int) -> list[Col
 
 
 def brute_force_collision(hasher: Hasher, initial: HashState) -> Collision:
-    hashes: dict[int, bytes] = {}
+    hashes: dict[int, Block] = {}
     count = 0
     while True:
         count += 1
-        rand_block = get_random_bytes(hasher.BLOCK_SIZE)
+        rand_block = urandom(hasher.BLOCK_SIZE)
         h = hasher.one_round(rand_block, initial)
         if h in hashes:
             # found collision b/c previous block had same hash

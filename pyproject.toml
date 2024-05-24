@@ -1,2 +1,36 @@
+[project]
+name = "cryptopals"
+dependencies = [
+    "black",
+    "isort",
+    "pytest",
+    "mypy",
+    "numpy",
+    "pycryptodome",
+    "types-requests",
+    "flask",
+    "requests",
+    "more-itertools",
+    "gmpy2",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {file = "LICENSE.md"}
+# Needed to make the editable install work
+version = "0.1.0"
+
 [tool.isort]
 profile = "black"
+
+[tool.pdm]
+distribution = false
+
+[[tool.pdm.source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "-e file:///${PROJECT_ROOT}/#egg=cryptopals",
+]

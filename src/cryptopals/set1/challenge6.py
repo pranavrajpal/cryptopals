@@ -1,5 +1,4 @@
 from ..conversions import base64_to_bytes
-
 from .challenge3 import brute_force_single_byte_xor
 from .challenge5 import repeating_key_xor
 
@@ -40,7 +39,7 @@ def get_hamming_keysize(ciphertext, keysize):
     return distance_so_far / (num_compares * keysize)
 
 
-def get_blocks(text, block_size):
+def get_blocks(text: bytes, block_size: int) -> list[bytes]:
     blocks = [text[i : i + block_size] for i in range(0, len(text), block_size)]
     return blocks
 

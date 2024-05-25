@@ -24,12 +24,16 @@ class Hasher(ABC):
     def BLOCK_SIZE(self) -> int:
         raise NotImplementedError
 
-    def __call__(self, message: bytes, initial: HashState) -> HashState:
+    def __call__(self, message: bytes, initial: HashState, padding: bool = True) -> HashState:
         """Run the entire hash"""
         # initial H value
         h: int = initial
 
-        padded = pkcs7_pad(message, self.BLOCK_SIZE)
+        if padding:
+            padded = pkcs7_pad(message, self.BLOCK_SIZE)
+        else:
+            assert len(message) % self.BLOCK_SIZE == 0
+            padded = message
         blocks = get_blocks(padded, self.BLOCK_SIZE)
         for block in blocks:
             h = self.one_round(block, h)
